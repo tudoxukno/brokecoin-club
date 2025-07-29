@@ -3,15 +3,15 @@ import { ChevronDown, AlertTriangle } from 'lucide-react';
 
 const Hero = () => {
   return (
-    <section id="home" className="relative h-screen flex items-start justify-center overflow-hidden pt-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+    <section id="home" className="relative h-screen flex items-start justify-center overflow-hidden pt-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left side - Copy - Moved to the left using margin */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-8 lg:-ml-24"
+            className="space-y-8 lg:-ml-48 lg:pt-8"
           >
             <h1 className="hero-text text-3xl md:text-5xl lg:text-7xl xl:text-8xl leading-tight">
               The only coin backed by tears and&nbsp;bad&nbsp;decisions.
@@ -21,7 +21,7 @@ const Hero = () => {
                 href="https://thirdweb.com/contracts/deploy/0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary text-center"
+                className="bg-charcoal text-white px-12 py-6 font-bebas text-xl md:text-2xl lg:text-3xl tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105 rounded-lg text-center"
               >
                 BUY BROKECOIN NOW
               </a>

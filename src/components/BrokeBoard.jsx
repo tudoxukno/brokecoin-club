@@ -1,90 +1,88 @@
 import { motion } from 'framer-motion';
-import { TrendingDown, Users, Activity, Lock } from 'lucide-react';
 
 const BrokeBoard = () => {
   const stats = [
     {
-      icon: TrendingDown,
       label: "Market Cap",
-      value: "$-42.69",
-      description: "We're in the negative, but that's just a state of mind"
+      value: "$ -42.69",
+      icon: null
     },
     {
-      icon: Users,
       label: "Holders",
       value: "1.5",
-      description: "One person and their emotional support wallet"
+      icon: null
     },
     {
-      icon: Activity,
       label: "Volume (24h)",
       value: "0.00 BROKE",
-      description: "Trading is just a social construct anyway"
+      icon: null
     },
     {
-      icon: Lock,
       label: "Liquidity Locked",
       value: "Emotionally.",
-      description: "Our feelings are locked in a vault of despair"
+      icon: null
     }
   ];
 
   return (
-    <section id="broke-board" className="py-20 bg-white border-t-2 border-b-2 border-charcoal">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="broke-board" className="bg-white border-t-2 border-charcoal relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="section-title mb-4">BROKEBOARD™</h2>
+          <h2 className="font-newsreader text-4xl md:text-6xl font-bold text-charcoal mb-4">
+            BROKEBOARD™
+          </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8"
+        >
           {stats.map((stat, index) => (
             <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 30 }}
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.6, delay: 0.1 * index }}
               viewport={{ once: true }}
-              className="bg-paper border-2 border-charcoal p-6 text-center hover:shadow-lg transition-shadow"
+              className="text-center"
             >
-              <div className="flex justify-center mb-4">
-                <stat.icon className="w-8 h-8 text-broke-600" />
+              <div className="mb-2">
+                {stat.icon && <stat.icon className="w-8 h-8 mx-auto text-charcoal mb-2" />}
               </div>
-              <h3 className="font-bebas text-lg tracking-wider text-charcoal mb-2">
+              <h3 className="font-inter text-sm font-medium text-dust mb-1 uppercase tracking-wider">
                 {stat.label}
               </h3>
-              <div className="text-3xl font-bold text-broke-600 mb-2">
+              <p className="font-inter text-2xl md:text-3xl font-semibold text-charcoal">
                 {stat.value}
-              </div>
-              <p className="mono-text text-xs">
-                {stat.description}
               </p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mt-12"
+          className="text-center"
         >
-          <p className="mono-text italic">
-            Accurate as of vibes. Last updated: whenever we remember to check.
+          <p className="font-inter text-sm font-medium text-dust">
+            Accurate as of vibes.
           </p>
-          <div className="mt-4 flex justify-center space-x-4">
-            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-            <div className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-          </div>
         </motion.div>
       </div>
+
+      {/* Shorter bottom border - positioned absolutely */}
+      <div className="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-charcoal"></div>
     </section>
   );
 };
