@@ -6,20 +6,20 @@ const Hero = () => {
     <section id="home" className="relative h-screen flex items-start justify-center overflow-hidden pt-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left side - Copy */}
+          {/* Left side - Copy - Moved to the left using margin */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-8 lg:max-w-3xl"
+            className="space-y-8 lg:-ml-24"
           >
             <h1 className="hero-text text-3xl md:text-5xl lg:text-7xl xl:text-8xl leading-tight">
-              The only coin backed by tears and bad decisions.
+              The only coin backed by tears and&nbsp;bad&nbsp;decisions.
             </h1>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a 
-                href="https://thirdweb.com/contracts/deploy/0x27b57Aa02BB1Ea243e5B44a41890246807Cda135" 
-                target="_blank" 
+              <a
+                href="https://thirdweb.com/contracts/deploy/0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary text-center"
               >
@@ -28,7 +28,7 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          {/* Right side - Crying Coin */}
+          {/* Right side - Crying Coin - Unchanged */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -43,17 +43,16 @@ const Hero = () => {
                 className="relative w-96 h-96 lg:w-[600px] lg:h-[600px] xl:w-[700px] xl:h-[700px]"
               >
                 {/* Actual Coin Image */}
-                <img 
-                  src="/images/hero-image.png" 
-                  alt="BROKECOIN - Crying Coin" 
+                <img
+                  src="/images/hero-image.png"
+                  alt="BROKECOIN - Crying Coin"
                   className="w-full h-full object-contain"
                   onError={(e) => {
-                    // Fallback to CSS coin if image fails to load
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'block';
                   }}
                 />
-                
+
                 {/* Fallback CSS Coin */}
                 <div className="absolute inset-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-500 rounded-full shadow-2xl border-4 border-gray-600 hidden">
                   {/* Coin Texture */}
@@ -110,12 +109,11 @@ const Hero = () => {
           >
             <div className="bg-paper border-2 border-charcoal p-6 shadow-lg">
               <div className="flex items-start space-x-3">
-                <img 
-                  src="/images/warning-icon.png" 
-                  alt="Warning" 
+                <img
+                  src="/images/warning-icon.png"
+                  alt="Warning"
                   className="w-6 h-6 text-charcoal flex-shrink-0 mt-1"
                   onError={(e) => {
-                    // Fallback to Lucide icon if image fails to load
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'block';
                   }}
@@ -126,7 +124,7 @@ const Hero = () => {
                     WARNING:
                   </h4>
                   <p className="body-text text-sm">
-                    Buying BROKECOIN may result in short-term laughter, long-term regret, and excessive screenshotting. 
+                    Buying BROKECOIN may result in short-term laughter, long-term regret, and excessive screenshotting.
                     Please consult your wallet before proceeding.
                   </p>
                 </div>
