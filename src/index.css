@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,12..60,200..900;1,12..60,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-paper text-charcoal font-inter;
+    font-feature-settings: "liga" 1, "kern" 1;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-charcoal text-white px-8 py-4 font-bebas text-lg tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-charcoal border-2 border-charcoal px-8 py-4 font-bebas text-lg tracking-wider hover:bg-charcoal hover:text-white transition-all duration-300;
+  }
+  
+  .section-title {
+    @apply font-newsreader text-4xl md:text-6xl font-bold text-charcoal;
+  }
+  
+  .hero-text {
+    @apply font-newsreader text-2xl md:text-4xl lg:text-6xl font-semibold text-charcoal leading-tight;
+  }
+  
+  .body-text {
+    @apply font-inter text-base md:text-lg text-charcoal leading-relaxed;
+  }
+  
+  .mono-text {
+    @apply font-mono text-sm text-dust;
+  }
+  
+  .loud-text {
+    @apply font-bebas text-xl md:text-2xl tracking-wider text-charcoal;
+  }
+}
+
+@layer utilities {
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .paper-texture {
+    background-image: 
+      radial-gradient(circle at 1px 1px, rgba(0,0,0,0.05) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+  
+  .torn-edge {
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 90%, 90% 85%, 85% 90%, 80% 85%, 75% 90%, 70% 85%, 65% 90%, 60% 85%, 55% 90%, 50% 85%, 45% 90%, 40% 85%, 35% 90%, 30% 85%, 25% 90%, 20% 85%, 15% 90%, 10% 85%, 5% 90%, 0 85%);
+  }
+}
