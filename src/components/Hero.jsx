@@ -183,20 +183,20 @@ const Hero = () => {
             transition={{ delay: 1.2, duration: 0.8 }}
             className="max-w-sm"
           >
-            <div className="bg-paper border-2 border-charcoal p-8 shadow-lg">
+            <div className="border-2 border-charcoal p-8 shadow-lg" style={{ backgroundColor: '#CEC5BA' }}>
               <div className="flex items-start space-x-4">
                 <img
                   src="/images/warning-icon.png"
                   alt="Warning"
-                  className="w-10 h-10 text-charcoal flex-shrink-0 mt-1"
+                  className="w-6 h-6 text-charcoal flex-shrink-0 mt-1"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'block';
                   }}
                 />
-                <AlertTriangle className="w-10 h-10 text-charcoal flex-shrink-0 mt-1 hidden" />
+                <AlertTriangle className="w-6 h-6 text-charcoal flex-shrink-0 mt-1 hidden" />
                 <div>
-                  <h4 className="font-bebas text-2xl tracking-wider text-charcoal mb-3">
+                  <h4 className="font-inter text-2xl font-semibold tracking-wider text-charcoal mb-3">
                     WARNING:
                   </h4>
                   <p className="body-text text-lg">
