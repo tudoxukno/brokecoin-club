@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ChevronDown, AlertTriangle } from 'lucide-react';
+import { ChevronDown, AlertTriangle, ArrowDownToLine } from 'lucide-react';
 
 const Hero = () => {
   const stats = [
@@ -159,16 +159,17 @@ const Hero = () => {
             style={{ marginLeft: '400px', transform: 'translateY(-15px)' }}
           >
             <a href="#broke-board" className="flex flex-row items-center space-x-2 text-charcoal hover:text-broke-600 transition-colors">
-              <img
-                src="/images/down-arrow.png"
-                alt="Scroll down"
-                className="w-16 h-16 animate-bounce"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'block';
-                }}
-              />
-              <ChevronDown className="w-16 h-16 animate-bounce hidden" />
+              <svg 
+                  className="w-16 h-16 animate-bounce" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="3"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
+                >
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
               <span className="loud-text text-6xl">SCROLL TO SEE THE DAMAGE</span>
             </a>
           </motion.div>
