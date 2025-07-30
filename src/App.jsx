@@ -3,7 +3,6 @@ import { ThirdwebProvider } from '@thirdweb-dev/react';
 import { Base } from '@thirdweb-dev/chains';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import BrokeBoard from './components/BrokeBoard';
 import Brokenomics from './components/Brokenomics';
 import Whitepaper from './components/Whitepaper';
 import ClaimSection from './components/ClaimSection';
@@ -14,7 +13,7 @@ import Footer from './components/Footer';
 
 function App() {
   return (
-    <ThirdwebProvider 
+    <ThirdwebProvider
       activeChain={Base}
       clientId="your-client-id-here" // Replace with your thirdweb client ID from config.js
     >
@@ -23,7 +22,6 @@ function App() {
           <Header />
           <main>
             <Hero />
-            <BrokeBoard />
             <Brokenomics />
             <Whitepaper />
             <ClaimSection />

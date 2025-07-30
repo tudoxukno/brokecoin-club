@@ -2,8 +2,30 @@ import { motion } from 'framer-motion';
 import { ChevronDown, AlertTriangle } from 'lucide-react';
 
 const Hero = () => {
+  const stats = [
+    {
+      label: "Market Cap",
+      value: "$ -42.69"
+    },
+    {
+      label: "Holders",
+      value: "1.5"
+    },
+    {
+      label: "Volume (24h)",
+      value: "0.00 BROKE"
+    },
+    {
+      label: "Liquidity Locked",
+      value: "Emotionally."
+    }
+  ];
+
   return (
     <section id="home" className="relative h-screen flex items-start justify-center overflow-hidden pt-6">
+      {/* Long top border that extends behind the coin - positioned directly below BUY BROKECOIN NOW button */}
+      <div className="absolute left-0 right-0 h-px bg-charcoal z-0" style={{ top: 'calc(50% - 120px)' }}></div>
+      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left side - Copy - Moved to the left using margin */}
@@ -26,6 +48,47 @@ const Hero = () => {
                 BUY BROKECOIN NOW
               </a>
             </div>
+
+            {/* BROKEBOARD Section - Integrated into hero flow */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mt-12"
+            >
+              {/* BROKEBOARD Title */}
+              <h2 className="font-newsreader text-2xl md:text-3xl font-bold text-charcoal mb-4 text-left">
+                BROKEBOARD™
+              </h2>
+
+              {/* Stats in horizontal row */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-4">
+                {stats.map((stat, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.5 + (index * 0.1) }}
+                    className="text-left"
+                  >
+                    <h3 className="font-inter text-xs font-medium text-dust mb-1 uppercase tracking-wider">
+                      {stat.label}
+                    </h3>
+                    <p className="font-inter text-lg md:text-xl font-semibold text-charcoal">
+                      {stat.value}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Bottom text */}
+              <p className="font-inter text-xs font-medium text-dust text-left">
+                Accurate as of vibes.
+              </p>
+
+              {/* Shorter bottom border */}
+              <div className="border-b border-charcoal mt-4 w-1/2"></div>
+            </motion.div>
           </motion.div>
 
           {/* Right side - Crying Coin - Unchanged */}
@@ -40,13 +103,13 @@ const Hero = () => {
               <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="relative w-96 h-96 lg:w-[600px] lg:h-[600px] xl:w-[700px] xl:h-[700px]"
+                className="relative w-96 h-96 lg:w-[600px] lg:h-[600px] xl:w-[700px] xl:h-[700px] z-30"
               >
                 {/* Actual Coin Image */}
                 <img
                   src="/images/hero-image.png"
                   alt="BROKECOIN - Crying Coin"
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-contain relative z-40"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'block';
