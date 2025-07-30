@@ -150,43 +150,55 @@ const Hero = () => {
         </div>
 
         {/* Bottom section with scroll indicator and warning box */}
-        <div className="absolute bottom-8 left-0 right-0 flex justify-between items-end px-4 sm:px-6 lg:px-8">
-          {/* Left side - Scroll indicator */}
+        {/* Scroll indicator */}
+        <div className="absolute bottom-48 left-0 px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.8 }}
+            style={{ marginLeft: '400px', transform: 'translateY(-15px)' }}
           >
-            <a href="#broke-board" className="flex flex-col items-center space-y-2 text-charcoal hover:text-broke-600 transition-colors">
-              <ChevronDown className="w-6 h-6 animate-bounce" />
-              <span className="loud-text">SCROLL TO SEE THE DAMAGE</span>
+            <a href="#broke-board" className="flex flex-row items-center space-x-2 text-charcoal hover:text-broke-600 transition-colors">
+              <img
+                src="/images/down-arrow.png"
+                alt="Scroll down"
+                className="w-16 h-16 animate-bounce"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'block';
+                }}
+              />
+              <ChevronDown className="w-16 h-16 animate-bounce hidden" />
+              <span className="loud-text text-6xl">SCROLL TO SEE THE DAMAGE</span>
             </a>
           </motion.div>
+        </div>
 
-          {/* Right side - Warning box */}
+        {/* Warning box */}
+        <div className="absolute bottom-28 right-0 px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.8 }}
             className="max-w-sm"
           >
-            <div className="bg-paper border-2 border-charcoal p-6 shadow-lg">
-              <div className="flex items-start space-x-3">
+            <div className="bg-paper border-2 border-charcoal p-8 shadow-lg">
+              <div className="flex items-start space-x-4">
                 <img
                   src="/images/warning-icon.png"
                   alt="Warning"
-                  className="w-6 h-6 text-charcoal flex-shrink-0 mt-1"
+                  className="w-10 h-10 text-charcoal flex-shrink-0 mt-1"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'block';
                   }}
                 />
-                <AlertTriangle className="w-6 h-6 text-charcoal flex-shrink-0 mt-1 hidden" />
+                <AlertTriangle className="w-10 h-10 text-charcoal flex-shrink-0 mt-1 hidden" />
                 <div>
-                  <h4 className="font-bebas text-lg tracking-wider text-charcoal mb-2">
+                  <h4 className="font-bebas text-2xl tracking-wider text-charcoal mb-3">
                     WARNING:
                   </h4>
-                  <p className="body-text text-sm">
+                  <p className="body-text text-lg">
                     Buying BROKECOIN may result in short-term laughter, long-term regret, and excessive screenshotting.
                     Please consult your wallet before proceeding.
                   </p>
