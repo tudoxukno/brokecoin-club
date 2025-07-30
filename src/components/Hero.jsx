@@ -54,15 +54,15 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-12"
+              style={{ marginTop: '120px' }}
             >
               {/* BROKEBOARD Title */}
-              <h2 className="font-newsreader text-2xl md:text-3xl font-bold text-charcoal mb-4 text-left">
+              <h2 className="font-inter text-3xl md:text-4xl lg:text-5xl font-semibold text-charcoal mb-8 text-left" style={{ marginTop: '-40px' }}>
                 BROKEBOARD™
               </h2>
 
               {/* Stats in horizontal row */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-4">
+              <div className="grid grid-cols-4 mb-4" style={{ marginTop: '80px', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '5rem' }}>
                 {stats.map((stat, index) => (
                   <motion.div
                     key={index}
@@ -71,10 +71,10 @@ const Hero = () => {
                     transition={{ duration: 0.6, delay: 0.5 + (index * 0.1) }}
                     className="text-left"
                   >
-                    <h3 className="font-inter text-xs font-medium text-dust mb-1 uppercase tracking-wider">
+                    <h3 className="font-inter text-sm font-medium text-dust mb-1 uppercase tracking-wider whitespace-nowrap">
                       {stat.label}
                     </h3>
-                    <p className="font-inter text-lg md:text-xl font-semibold text-charcoal">
+                    <p className="font-inter text-xl md:text-2xl lg:text-3xl font-semibold text-charcoal whitespace-nowrap">
                       {stat.value}
                     </p>
                   </motion.div>
@@ -82,13 +82,13 @@ const Hero = () => {
               </div>
 
               {/* Bottom text */}
-              <p className="font-inter text-xs font-medium text-dust text-left">
+              <p className="font-inter text-base font-medium text-dust text-left" style={{ marginTop: '80px' }}>
                 Accurate as of vibes.
               </p>
-
-              {/* Shorter bottom border */}
-              <div className="border-b border-charcoal mt-4 w-1/2"></div>
             </motion.div>
+
+            {/* Bottom border that extends behind the coin - same width as top divider */}
+            <div className="absolute left-0 right-0 h-px bg-charcoal z-0" style={{ top: 'calc(50% + 200px)' }}></div>
           </motion.div>
 
           {/* Right side - Crying Coin - Unchanged */}
