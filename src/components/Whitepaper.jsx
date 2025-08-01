@@ -1,13 +1,47 @@
 import { motion } from 'framer-motion';
-import { Download, AlertTriangle } from 'lucide-react';
+import { Download } from 'lucide-react';
 
 const Whitepaper = () => {
+  const distribution = [
+    {
+      percentage: "38%",
+      title: "Scattered to the broke masses",
+      description: "Freely claimable. If you're here, you qualify. That's how low the bar is."
+    },
+    {
+      percentage: "15%",
+      title: "Founder Ramen & Therapy Reserve",
+      description: "For crying in product meetings, and surviving late-stage capitalism with WiFi."
+    },
+    {
+      percentage: "15%",
+      title: "Meme Stimulus & Viral Bailouts",
+      description: "For contests, chaos, and social rugpull engagement. Also known as 'Marketing.'"
+    },
+    {
+      percentage: "12%",
+      title: "Algorithm Sacrifice Fund",
+      description: "To summon a pump that may never come. But at least we tried."
+    },
+    {
+      percentage: "10%",
+      title: "Ghost Liquidity",
+      description: "For future trading pairs. So you can swap $BROKE and feel briefly alive."
+    },
+    {
+      percentage: "10%",
+      title: "Treasury of Broke Ass Bums",
+      description: "For ops and 'structure,' but mostly just vibes and maybe a Canva Pro subscription."
+    }
+  ];
+
   const roadmap = [
     {
       quarter: "Q1 - SOFT DELUSION LAUNCH (CURRENT PHASE)",
       items: [
         "$BROKE officially launched (accidentally, but on purpose though)",
         "Whitepaper released unfinished",
+        "First wave of believers joins the cult",
         "Dev wallet still hasn't figured out how to lock liquidity"
       ]
     },
@@ -16,6 +50,7 @@ const Whitepaper = () => {
       items: [
         "Airdrop 'campaign' begins",
         "Launch $BROKE merch line: 1 hoodie, 0 inventory",
+        "Viral X thread that gets ratioed",
         "Announce DAO. Immediately regret it."
       ]
     },
@@ -37,6 +72,16 @@ const Whitepaper = () => {
         "BROKECOIN Netflix doc (YouTube video essay with 92 views and 14 dislikes)"
       ]
     }
+  ];
+
+  const howToBuy = [
+    "Download a wallet.",
+    "Back up seed phrase, then lose it.",
+    "Copy the $BROKE contract address: 0x27b57Aa02BB1Ea243e5B44a4189024E807Cda135",
+    "Head to thirdweb.com or wherever we're currently pretending to be legit.",
+    "Connect wallet, approve pop-ups, hope for the best.",
+    "Buy $BROKE. Don't overthink it.",
+    "Tweet 'I just went $BROKE.'"
   ];
 
   const faq = [
@@ -91,6 +136,7 @@ const Whitepaper = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -98,135 +144,210 @@ const Whitepaper = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="section-title mb-4">WHITEPAPER</h2>
-          <div className="flex items-center justify-center space-x-4 mb-4">
-            <span className="bg-yellow-200 text-charcoal px-3 py-1 font-mono text-sm">WIP?</span>
+          <div className="flex justify-center items-center space-x-8 ml-64">
+            <img
+              src="/images/whitepaper-header.png"
+              alt="WHITEPAPER"
+              className="h-32 sm:h-40 lg:h-48 object-contain"
+            />
+            <img
+              src="/images/wip-stickynote.png"
+              alt="WIP?"
+              className="h-48 sm:h-56 lg:h-64 object-contain"
+            />
           </div>
         </motion.div>
 
-        {/* Introduction */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-12"
-        >
-          <h3 className="font-bebas text-2xl tracking-wider text-charcoal mb-4">INTRODUCTION</h3>
-          <p className="body-text mb-4">
-            So you're broke. Welcome. This is the inevitable outcome of financial despair and delusional optimism.
-          </p>
-          <div className="bg-paper border-l-4 border-broke-600 p-4 mb-4">
-            <p className="body-text italic">
+        {/* Introduction and Mission Statement - Vertical Stacking */}
+        <div className="space-y-12 mb-16">
+          {/* Introduction */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="font-mono text-2xl font-semibold text-black mb-4">INTRODUCTION</h3>
+            <p className="font-mono text-lg font-medium text-black">
+              So you're broke. Welcome. This is the inevitable outcome of financial despair and delusional optimism.
+            </p>
+          </motion.div>
+
+          {/* Mission Statement */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="font-mono text-2xl font-semibold text-black mb-4">MISSION STATEMENT?</h3>
+            <p className="font-mono text-lg font-medium text-black mb-4">
+              We didn't choose the broke life; it chose us.
+            </p>
+            <p className="font-mono text-lg font-medium text-black italic">
               "You have to be broke before you can be rich." - Grant Cardone, allegedly.
             </p>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
-        {/* What is $BROKE */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-12"
-        >
-          <h3 className="font-bebas text-2xl tracking-wider text-charcoal mb-4">WHAT IS $BROKE?</h3>
-          <p className="body-text">
-            A meme, a movement, a minor financial decision with major emotional fallout... It exists solely to plunge further into collective wobbling.
-          </p>
-        </motion.div>
+        {/* Main Content - Single Column */}
+        <div className="space-y-12">
+          {/* What is $BROKE */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="font-mono text-2xl font-semibold text-black mb-4">WHAT IS $BROKE?</h3>
+            <p className="font-mono text-lg font-medium text-black">
+              A meme, a movement, a minor financial decision with major emotional fallout... It exists solely to plunge further into collective wobbling.
+            </p>
+          </motion.div>
 
-        {/* Roadmap */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-12"
-        >
-          <h3 className="font-bebas text-2xl tracking-wider text-charcoal mb-4">ROADMAP? LMAO OK, FINE</h3>
-          <p className="body-text mb-6">Let's pretend this is going somewhere:</p>
-          
-          <div className="space-y-8">
-            {roadmap.map((phase, index) => (
-              <motion.div
-                key={phase.quarter}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-paper border-2 border-charcoal p-6"
-              >
-                <h4 className="font-bebas text-lg tracking-wider text-broke-600 mb-4">
-                  {phase.quarter}
-                </h4>
-                <ul className="space-y-2">
-                  {phase.items.map((item, itemIndex) => (
-                    <li key={itemIndex} className="body-text flex items-start space-x-2">
-                      <span className="text-broke-600 mt-1">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+          {/* BROKENOMICS Deep Dive */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="font-mono text-2xl font-semibold text-black mb-4">BROKENOMICS DEEP DIVE</h3>
+            <p className="font-mono text-lg font-medium text-black mb-6">
+              $BROKE operates on a frictionless delusion protocol with a fixed supply of 1 billion tokens. It feels like too much but also not enough.
+            </p>
+          </motion.div>
 
-        {/* FAQ */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="mb-12"
-        >
-          <h3 className="font-bebas text-2xl tracking-wider text-charcoal mb-4">
-            FAQ (FREQUENTLY AVOIDED QUESTIONS)
-          </h3>
-          <p className="body-text mb-6">Because someone in the group chat is definitely gonna ask...</p>
-          
-          <div className="space-y-6">
-            {faq.map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.05 }}
-                viewport={{ once: true }}
-                className="bg-paper border-2 border-charcoal p-4"
-              >
-                <h4 className="font-bebas text-lg tracking-wider text-charcoal mb-2">
-                  Q: {item.q}
-                </h4>
-                <p className="body-text">A: {item.a}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+          {/* Distribution */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="font-mono text-2xl font-semibold text-black mb-6">DISTRIBUTION</h3>
+            <div className="space-y-4">
+              {distribution.map((item, index) => (
+                <div key={index} className="border-l-4 border-black pl-4">
+                  <div className="flex items-start space-x-2">
+                    <span className="font-mono text-lg font-semibold text-black">{item.percentage}</span>
+                    <span className="font-mono text-lg font-semibold text-black">-</span>
+                    <span className="font-mono text-lg font-semibold text-black">{item.title}</span>
+                  </div>
+                  <p className="font-mono text-base font-medium text-black ml-6 mt-1">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <p className="font-mono text-base font-medium text-black mt-6">
+              Estimated 20M $BROKE currently floating in claim-contract limbo. We're calling it Broke Stimmy Phase 2.
+            </p>
+          </motion.div>
 
-        {/* Download Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
-          <div className="bg-paper border-2 border-charcoal p-8 torn-edge">
-            <h3 className="font-bebas text-2xl tracking-wider text-charcoal mb-4">
-              DOWNLOAD THE FULL WHITEPAPER PDF
+          {/* Roadmap */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="font-mono text-2xl font-semibold text-black mb-8">ROADMAP? LMAO OK, FINE</h3>
+            <div className="relative">
+              {/* Vertical Timeline Line */}
+              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-black"></div>
+              
+              <div className="space-y-8">
+                {roadmap.map((phase, index) => (
+                  <div key={phase.quarter} className="relative flex items-start">
+                    {/* Content */}
+                    <div className="ml-12 flex-1">
+                      <h4 className="font-mono text-lg font-semibold text-black mb-4">
+                        {phase.quarter}
+                      </h4>
+                      <ul className="space-y-2">
+                        {phase.items.map((item, itemIndex) => (
+                          <li key={itemIndex} className="font-mono text-base font-medium text-black flex items-start space-x-2">
+                            <span className="text-black mt-1">•</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* How to Buy */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="font-mono text-2xl font-semibold text-black mb-4">HOW TO BUY</h3>
+            <p className="font-mono text-base font-medium text-black mb-6">
+              This isn't financial advice, and we're not financial advisors (unless... you wanted us to be?)
+            </p>
+            <ol className="space-y-3">
+              {howToBuy.map((step, index) => (
+                <li key={index} className="font-mono text-base font-medium text-black flex items-start space-x-3">
+                  <span className="font-mono text-base font-semibold text-black">{index + 1}.</span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="font-mono text-base font-medium text-black mt-6">
+              Congrats. You're part of the community now. (P.S. There's no help coming.)
+            </p>
+          </motion.div>
+
+          {/* FAQ */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="font-mono text-2xl font-semibold text-black mb-6">
+              FAQ (FREQUENTLY AVOIDED QUESTIONS)
             </h3>
-            <p className="body-text mb-6">(52MB, mostly memes)</p>
-            <a 
-              href="/brokecoin-whitepaper.pdf" 
-              download
-              className="btn-primary inline-flex items-center space-x-2"
-            >
-              <Download className="w-5 h-5" />
-              <span>DOWNLOAD PDF</span>
-            </a>
+            <div className="space-y-6">
+              {faq.map((item, index) => (
+                <div key={index}>
+                  <h4 className="font-mono text-lg font-semibold text-black mb-2">
+                    Q: {item.q}
+                  </h4>
+                  <p className="font-mono text-base font-medium text-black">A: {item.a}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Bottom CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          viewport={{ once: true }}
+          className="text-center mt-16"
+        >
+          <div className="relative inline-block">
+            <img
+              src="/images/download-cta.png"
+              alt="DOWNLOAD THE FULL WHITEPAPER PDF"
+              className="w-full max-w-xl object-contain"
+            />
+            <div className="absolute -top-32 -right-72">
+              <img
+                src="/images/telegram-sticker.png"
+                alt="FREE ENTRY BROKECOIN BILLIONAIRES TELEGRAM GROUP"
+                className="w-96 h-96 object-contain"
+              />
+            </div>
           </div>
         </motion.div>
       </div>
