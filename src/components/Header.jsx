@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ConnectWallet } from '@thirdweb-dev/react';
+// import { ConnectWallet } from '@thirdweb-dev/react';
 import { Menu, X } from 'lucide-react';
 
 const Header = () => {
@@ -7,6 +7,10 @@ const Header = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleWalletClick = () => {
+    alert('Wallet connection temporarily disabled - site needs to be stable first');
   };
 
   return (
@@ -51,39 +55,22 @@ const Header = () => {
 
           {/* CTA - Spans 3 columns, positioned at end */}
           <div className="col-span-3 flex items-center justify-end">
-            <ConnectWallet 
-              theme="dark"
-              btnTitle={
-                <div className="flex items-center space-x-2 font-bebas text-base lg:text-lg tracking-wider">
-                  <img 
-                    src="/images/purchase-tag.png" 
-                    alt="" 
-                    className="w-4 h-4"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'block';
-                    }}
-                  />
-                  <span className="hidden">🏷️</span>
-                  <span>BUY BROKECOIN</span>
-                </div>
-              }
-              modalTitle="Purchase BROKECOIN"
-              modalSize="wide"
-              welcomeScreen={{
-                title: "Buy BROKECOIN",
-                subtitle: "Join the broke revolution"
-              }}
-              className="!bg-transparent !border-none !text-white font-bebas text-base lg:text-lg tracking-wider hover:text-broke-300 transition-colors !p-0 !m-0 !shadow-none"
-              style={{
-                backgroundColor: 'transparent !important',
-                border: 'none !important',
-                color: 'white !important',
-                padding: '0 !important',
-                margin: '0 !important',
-                boxShadow: 'none !important'
-              }}
-            />
+            <button 
+              onClick={handleWalletClick}
+              className="flex items-center space-x-2 font-bebas text-base lg:text-lg tracking-wider hover:text-broke-300 transition-colors"
+            >
+              <img 
+                src="/images/purchase-tag.png" 
+                alt="" 
+                className="w-4 h-4"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'block';
+                }}
+              />
+              <span className="hidden">🏷️</span>
+              <span>BUY BROKECOIN</span>
+            </button>
           </div>
         </div>
       </div>
@@ -162,39 +149,25 @@ const Header = () => {
             
             {/* Mobile CTA inside menu */}
             <div className="px-4 py-3 border-t border-gray-700 mt-2">
-              <ConnectWallet 
-                theme="dark"
-                btnTitle={
-                  <div className="flex items-center space-x-2 font-bebas text-lg tracking-wider">
-                    <img 
-                      src="/images/purchase-tag.png" 
-                      alt="" 
-                      className="w-4 h-4"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'block';
-                      }}
-                    />
-                    <span className="hidden">🏷️</span>
-                    <span>BUY BROKECOIN</span>
-                  </div>
-                }
-                modalTitle="Purchase BROKECOIN"
-                modalSize="wide"
-                welcomeScreen={{
-                  title: "Buy BROKECOIN",
-                  subtitle: "Join the broke revolution"
+              <button 
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  handleWalletClick();
                 }}
-                className="!bg-transparent !border-none !text-white font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors !p-0 !m-0 !shadow-none"
-                style={{
-                  backgroundColor: 'transparent !important',
-                  border: 'none !important',
-                  color: 'white !important',
-                  padding: '0 !important',
-                  margin: '0 !important',
-                  boxShadow: 'none !important'
-                }}
-              />
+                className="flex items-center space-x-2 font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors"
+              >
+                <img 
+                  src="/images/purchase-tag.png" 
+                  alt="" 
+                  className="w-4 h-4"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'block';
+                  }}
+                />
+                <span className="hidden">🏷️</span>
+                <span>BUY BROKECOIN</span>
+              </button>
             </div>
           </nav>
         </div>

@@ -1,42 +1,41 @@
 import { motion } from 'framer-motion';
-import { motion as motionDiv } from 'framer-motion';
 
 const Brokenomics = () => {
-  const allocations = [
+  const allocationData = [
     {
       allocation: "Founder Reserve",
       percentage: "15%",
-      amount: "150M",
+      amount: "(150M)",
       realTalk: "To fund ramen & therapy."
     },
     {
       allocation: "Community Claims",
       percentage: "38%",
-      amount: "380M",
+      amount: "(380M)",
       realTalk: "Because we're all broke together."
     },
     {
       allocation: "Liquidity (Future)",
       percentage: "10%",
-      amount: "100M",
+      amount: "(100M)",
       realTalk: "So you can trade BROKE and feel something."
     },
     {
       allocation: "Giveaways & Airdrops",
       percentage: "15%",
-      amount: "150M",
+      amount: "(150M)",
       realTalk: "For contests, chaos, and broke-worthy engagement."
     },
     {
       allocation: "Treasury & Ops",
       percentage: "10%",
-      amount: "100M",
+      amount: "(100M)",
       realTalk: "We manifesting org charts. One broke hire at a time."
     },
     {
       allocation: "Burn & Rewards",
       percentage: "12%",
-      amount: "120M",
+      amount: "(120M)",
       realTalk: "For sacrifices to the algorithm. May the pump bless us."
     }
   ];
@@ -45,127 +44,246 @@ const Brokenomics = () => {
     "You have the right to claim.",
     "You have the right to be down bad.",
     "You have the right to rug and recover.",
-    "You have the right to ignore red flags.",
-    "You have the right to overhype in group chats.",
-    "You have the right to refresh charts religiously.",
-    "You have the right to blame the market makers.",
-    "You have the right to stare at your wallet at 2AM whispering \"we gone make it with this one\" while eating a gas station burrito and avoiding your landlord's texts, because hope is free, and delusion is cheaper."
+    "You have the right to flex your 25K BROKE like it's a million.",
+    "You have the right to Stimmy Phase 2 (eventually).",
+    "You have the right to screenshot your balance and still feel rich.",
+    "You have the right to hold through the poverty pump.",
+    "You have the right to stare at your wallet at 2AM whispering \"we gone make it with this one\" while eating a gas station burrito and avoiding your landlord's texts, because hope is free, and delusion is cheaper.",
+    "You have the right to screenshot a 12-minute pump and call it generational wealth (never mind the cliff that followed...that moment was real).",
+    "You have the right to claim BROKECOIN on your taxes as \"emotional reparations.\" Let the IRS audit the pain."
   ];
 
   return (
-    <section id="brokenomics" className="py-12 sm:py-16 lg:py-20 bg-paper">
+    <section id="brokenomics" className="py-20 bg-paper">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-8 sm:mb-12 lg:mb-16"
-        >
-          <h2 className="section-title mb-4">BROKENOMICS</h2>
-          <p className="body-text text-lg sm:text-xl">
-            The totally rational distribution plan for the world's most emotionally volatile digital asset.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
-          {/* Left Column - Token Allocation */}
+        {/* Desktop Layout - Two Columns */}
+        <div className="hidden lg:grid lg:grid-cols-2 lg:gap-24 relative">
+          {/* Vertical divider line */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-charcoal transform -translate-x-1/2 ml-4"></div>
+          
+          {/* Left Column - BROKENOMICS */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="flex flex-col"
           >
-            <div className="mb-6 sm:mb-8">
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-4 mb-4">
-                <span className="body-text font-semibold text-sm sm:text-base">Total supply minted: 1 Billion BROKE</span>
-                <span className="body-text font-semibold text-sm sm:text-base">Claim limit: 25,000 per wallet</span>
+            {/* Top section - Title, subtitle, supply details */}
+            <div className="space-y-8">
+              {/* Title */}
+              <h2 className="font-newsreader text-5xl lg:text-6xl xl:text-7xl font-bold text-charcoal">
+                BROKENOMICS
+              </h2>
+              
+              {/* Subtitle */}
+              <p className="font-newsreader text-xl lg:text-2xl text-charcoal font-medium">
+                The totally rational distribution plan for the world's most emotionally volatile digital asset.
+              </p>
+              
+              {/* Supply Details - Horizontal layout */}
+              <div className="flex justify-between items-center">
+                <p className="font-newsreader text-lg lg:text-xl text-charcoal font-normal">
+                  Total supply minted: 1 Billion BROKE
+                </p>
+                <p className="font-newsreader text-lg lg:text-xl text-charcoal font-normal">
+                  Claim limit: 25,000 per wallet
+                </p>
               </div>
-              <div className="w-full h-1 bg-charcoal"></div>
             </div>
-
-            <div className="space-y-3 sm:space-y-4">
-              {allocations.map((item, index) => (
-                <motion.div
-                  key={item.allocation}
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white border-2 border-charcoal p-3 sm:p-4"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 items-center">
-                    <div>
-                      <h3 className="font-bebas text-sm sm:text-lg tracking-wider text-charcoal">
-                        {item.allocation}
-                      </h3>
-                    </div>
-                    <div className="text-center sm:text-center">
-                      <div className="font-bold text-broke-600 text-sm sm:text-base">{item.percentage}</div>
-                      <div className="mono-text text-xs sm:text-sm">({item.amount})</div>
-                    </div>
-                    <div>
-                      <p className="body-text text-xs sm:text-sm italic">{item.realTalk}</p>
-                    </div>
+            
+            {/* Middle section - Table */}
+            <div className="my-8">
+              <div className="border-2 border-charcoal">
+                <div className="bg-charcoal text-white p-4">
+                  <div className="grid grid-cols-3 gap-4 font-inter text-sm lg:text-base font-semibold">
+                    <div>Allocation</div>
+                    <div>% of Supply</div>
+                    <div>Real Talk</div>
                   </div>
-                </motion.div>
-              ))}
+                </div>
+                <div className="divide-y divide-charcoal">
+                  {allocationData.map((item, index) => (
+                    <div key={index} className="p-4">
+                      <div className="grid grid-cols-3 gap-4">
+                        <div className="font-inter text-sm lg:text-base font-semibold text-charcoal">
+                          {item.allocation}
+                        </div>
+                        <div className="font-inter text-sm lg:text-base font-semibold text-charcoal">
+                          {item.percentage} {item.amount}
+                        </div>
+                        <div className="font-inter text-sm lg:text-base font-medium text-charcoal">
+                          {item.realTalk}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-
-            <div className="mt-6 sm:mt-8 p-3 sm:p-4 bg-white border-2 border-charcoal">
-              <p className="mono-text italic text-xs sm:text-sm">
+            
+            {/* Bottom section - Footer note */}
+            <div className="mt-auto">
+              <p className="font-inter text-sm lg:text-base text-charcoal font-medium">
                 *Note: 20M BROKE remains in claim contract limbo. We're calling it the Broke Stimmy Phase 2... maybe.
               </p>
             </div>
           </motion.div>
 
-          {/* Right Column - Bill of Rights */}
+          {/* Right Column - THE BROKECOIN BILL OF RIGHTS */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="flex flex-col ml-12 relative"
+          >
+            {/* Background watermark */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-70 pointer-events-none z-0">
+              <img 
+                src="/images/logo-watermark.png" 
+                alt="" 
+                className="w-full h-full object-contain"
+              />
+            </div>
+            
+            {/* Content */}
+            <div className="relative z-10">
+              {/* Top section - Title aligned with BROKENOMICS subtitle */}
+              <div className="pt-28">
+                <h3 className="font-newsreader text-xl lg:text-2xl xl:text-3xl font-bold text-charcoal mb-8">
+                  THE BROKECOIN<br />
+                  BILL OF RIGHTS:
+                </h3>
+              </div>
+              
+              {/* Middle section - List fills table space */}
+              <div className="space-y-4 mb-8">
+                {billOfRights.map((right, index) => (
+                  <div key={index} className="flex items-start space-x-4">
+                    <span className="font-inter text-lg lg:text-xl font-semibold text-charcoal flex-shrink-0">
+                      {index + 1}.
+                    </span>
+                    <p className="font-inter text-base lg:text-lg text-charcoal font-medium leading-relaxed">
+                      {right}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Bottom section - CTA aligned with bottom of table */}
+              <div className="mt-auto pt-4">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-charcoal text-white px-8 py-4 font-bebas text-xl lg:text-2xl tracking-wider hover:bg-broke-600 transition-all duration-300 rounded-lg"
+                >
+                  CLAIM YOUR SHARE
+                </motion.button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Mobile Layout - Single Column */}
+        <div className="lg:hidden space-y-12">
+          {/* BROKENOMICS Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="relative"
+            className="space-y-6"
           >
-            <h3 className="section-title mb-6 sm:mb-8">THE BROKECOIN BILL OF RIGHTS:</h3>
+            {/* Title */}
+            <h2 className="font-newsreader text-3xl sm:text-4xl font-bold text-charcoal">
+              BROKENOMICS
+            </h2>
             
-            <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+            {/* Subtitle */}
+            <p className="font-newsreader text-lg sm:text-xl text-charcoal font-medium">
+              The totally rational distribution plan for the world's most emotionally volatile digital asset.
+            </p>
+            
+            {/* Supply Details - Horizontal layout */}
+            <div className="flex justify-between items-center">
+              <p className="font-newsreader text-base sm:text-lg text-charcoal font-normal">
+                Total supply minted: 1 Billion BROKE
+              </p>
+              <p className="font-newsreader text-base sm:text-lg text-charcoal font-normal">
+                Claim limit: 25,000 per wallet
+              </p>
+            </div>
+            
+            {/* Allocation Table */}
+            <div className="border-2 border-charcoal">
+              <div className="bg-charcoal text-white p-3">
+                <div className="grid grid-cols-3 gap-2 font-inter text-xs sm:text-sm font-semibold">
+                  <div>Allocation</div>
+                  <div>% of Supply</div>
+                  <div>Real Talk</div>
+                </div>
+              </div>
+              <div className="divide-y divide-charcoal">
+                {allocationData.map((item, index) => (
+                  <div key={index} className="p-3">
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="font-inter text-xs sm:text-sm font-semibold text-charcoal">
+                        {item.allocation}
+                      </div>
+                      <div className="font-inter text-xs sm:text-sm font-semibold text-charcoal">
+                        {item.percentage} {item.amount}
+                      </div>
+                      <div className="font-inter text-xs sm:text-sm font-medium text-charcoal">
+                        {item.realTalk}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Footer Note */}
+            <p className="font-inter text-xs sm:text-sm text-charcoal font-medium">
+              *Note: 20M BROKE remains in claim contract limbo. We're calling it the Broke Stimmy Phase 2... maybe.
+            </p>
+          </motion.div>
+
+          {/* THE BROKECOIN BILL OF RIGHTS */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            {/* Title */}
+            <h3 className="font-newsreader text-xl sm:text-2xl font-bold text-charcoal">
+              THE BROKECOIN BILL OF RIGHTS:
+            </h3>
+            
+            {/* Numbered List */}
+            <div className="space-y-3">
               {billOfRights.map((right, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="flex items-start space-x-2 sm:space-x-4"
-                >
-                  <span className="font-bebas text-lg sm:text-xl lg:text-2xl text-broke-600 flex-shrink-0">
+                <div key={index} className="flex items-start space-x-3">
+                  <span className="font-inter text-base sm:text-lg font-semibold text-charcoal flex-shrink-0">
                     {index + 1}.
                   </span>
-                  <p className="body-text text-sm sm:text-base">{right}</p>
-                </motion.div>
+                  <p className="font-inter text-sm sm:text-base text-charcoal font-medium leading-relaxed">
+                    {right}
+                  </p>
+                </div>
               ))}
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              viewport={{ once: true }}
-              className="text-center"
+            
+            {/* CTA Button */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-charcoal text-white px-6 py-3 font-bebas text-lg sm:text-xl tracking-wider hover:bg-broke-600 transition-all duration-300 rounded-lg"
             >
-              <a 
-                href="#claim-section" 
-                className="btn-primary"
-              >
-                CLAIM YOUR SHARE
-              </a>
-            </motion.div>
-
-            {/* Background B logo - Responsive sizing */}
-            <div className="absolute -top-16 sm:-top-20 -right-16 sm:-right-20 text-charcoal opacity-5 text-6xl sm:text-8xl lg:text-9xl font-bebas pointer-events-none">
-              B
-            </div>
+              CLAIM YOUR SHARE
+            </motion.button>
           </motion.div>
         </div>
       </div>

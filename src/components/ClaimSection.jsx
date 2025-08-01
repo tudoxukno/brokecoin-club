@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useContract, useContractRead, useContractWrite, useAddress } from '@thirdweb-dev/react';
-import { ethers } from 'ethers';
+// import { useContract, useContractRead, useContractWrite, useAddress } from '@thirdweb-dev/react';
+// import { ethers } from 'ethers';
 import { AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 
 const ClaimSection = () => {
@@ -9,17 +9,22 @@ const ClaimSection = () => {
   const [isClaiming, setIsClaiming] = useState(false);
   const [claimStatus, setClaimStatus] = useState(null);
   
-  const address = useAddress();
+  // Temporarily disabled Thirdweb hooks to prevent white screen
+  const address = null; // useAddress();
   const contractAddress = "0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"; // Replace with your actual contract address
   
-  const { contract } = useContract(contractAddress);
+  // const { contract } = useContract(contractAddress);
   
-  // Read contract data
-  const { data: claimableAmount } = useContractRead(contract, "claimableAmount", [address]);
-  const { data: hasClaimed } = useContractRead(contract, "hasClaimed", [address]);
+  // Read contract data - temporarily disabled
+  // const { data: claimableAmount } = useContractRead(contract, "claimableAmount", [address]);
+  // const { data: hasClaimed } = useContractRead(contract, "hasClaimed", [address]);
   
-  // Write contract functions
-  const { mutateAsync: claim } = useContractWrite(contract, "claim");
+  // Write contract functions - temporarily disabled
+  // const { mutateAsync: claim } = useContractWrite(contract, "claim");
+
+  // Mock data for now
+  const claimableAmount = "25000000000000000000000"; // 25,000 tokens in wei
+  const hasClaimed = false;
 
   const handleClaim = async () => {
     if (!address) {
@@ -36,22 +41,30 @@ const ClaimSection = () => {
     setClaimStatus(null);
 
     try {
-      await claim({ args: [claimAmount] });
-      setClaimStatus({ type: 'success', message: 'Successfully claimed 25,000 BROKE tokens!' });
+      // Temporarily disabled actual claim
+      // await claim({ args: [claimAmount] });
+      
+      // Mock successful claim
+      setTimeout(() => {
+        setClaimStatus({ type: 'success', message: 'Successfully claimed 25,000 BROKE tokens!' });
+        setIsClaiming(false);
+      }, 2000);
+      
     } catch (error) {
       console.error('Claim error:', error);
       setClaimStatus({ 
         type: 'error', 
         message: error.message || 'Failed to claim tokens. Please try again.' 
       });
-    } finally {
       setIsClaiming(false);
     }
   };
 
   const formatNumber = (num) => {
     if (!num) return '0';
-    return ethers.utils.formatUnits(num, 18);
+    // Temporarily disabled ethers
+    // return ethers.utils.formatUnits(num, 18);
+    return '25,000'; // Mock value
   };
 
   return (
