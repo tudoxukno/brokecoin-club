@@ -344,27 +344,29 @@ const Whitepaper = () => {
           className="text-center mt-12 sm:mt-16"
         >
           {/* Desktop Layout - Overlapping */}
-          <div className="hidden lg:block relative inline-block">
-            <img
-              src="/images/download-cta.png"
-              alt="DOWNLOAD THE FULL WHITEPAPER PDF"
-              className="w-full max-w-xl object-contain"
-            />
-            <div className="absolute -top-32 -right-72">
+          <div className="hidden lg:flex justify-center relative">
+            <div className="relative inline-block">
               <img
-                src="/images/telegram-sticker.png"
-                alt="FREE ENTRY BROKECOIN BILLIONAIRES TELEGRAM GROUP"
-                className="w-96 h-96 object-contain"
+                src="/images/download-cta.png"
+                alt="DOWNLOAD THE FULL WHITEPAPER PDF"
+                className="w-full max-w-xl object-contain"
               />
+              <div className="absolute -top-32 -right-72">
+                <img
+                  src="/images/telegram-sticker.png"
+                  alt="FREE ENTRY BROKECOIN BILLIONAIRES TELEGRAM GROUP"
+                  className="w-96 h-96 object-contain"
+                />
+              </div>
             </div>
           </div>
           
           {/* Mobile/Tablet Layout - Stacked vertically */}
-          <div className="lg:hidden flex flex-col items-center space-y-4">
+          <div className="lg:hidden flex flex-col items-center justify-center space-y-4">
             <img
               src="/images/download-cta.png"
               alt="DOWNLOAD THE FULL WHITEPAPER PDF"
-              className="w-full max-w-md object-contain"
+              className="max-w-md object-contain"
             />
             <img
               src="/images/telegram-sticker.png"
