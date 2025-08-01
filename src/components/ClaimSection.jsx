@@ -68,8 +68,20 @@ const ClaimSection = () => {
   };
 
   return (
-    <section id="claim-section" className="py-20 bg-paper">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="claim-section" className="py-20 bg-white relative overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/images/bg4.png"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+        {/* Subtle overlay to reduce contrast */}
+        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -77,8 +89,10 @@ const ClaimSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="section-title mb-4">CLAIM YOUR BROKE</h2>
-          <p className="body-text text-xl">
+          <h2 className="font-newsreader text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6">
+            CLAIM YOUR BROKE
+          </h2>
+          <p className="font-inter text-xl lg:text-2xl text-white font-medium">
             Join the broke revolution. Claim your 25,000 BROKE tokens and embrace the chaos.
           </p>
         </motion.div>
@@ -91,42 +105,42 @@ const ClaimSection = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="bg-white border-2 border-charcoal p-8 mb-8">
-              <h3 className="font-bebas text-2xl tracking-wider text-charcoal mb-6">
+            <div className="bg-white border-2 border-charcoal p-8 shadow-lg h-full flex flex-col">
+              <h3 className="font-bebas text-2xl lg:text-3xl tracking-wider text-charcoal mb-6">
                 CLAIM DETAILS
               </h3>
               
-              <div className="space-y-4">
+              <div className="space-y-4 flex-1">
                 <div className="flex justify-between items-center">
-                  <span className="body-text">Claim Limit:</span>
+                  <span className="font-inter text-lg font-medium text-charcoal">Claim Limit:</span>
                   <span className="font-bebas text-lg text-broke-600">25,000 BROKE</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="body-text">Network:</span>
+                  <span className="font-inter text-lg font-medium text-charcoal">Network:</span>
                   <span className="font-bebas text-lg text-broke-600">Base Mainnet</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="body-text">Contract:</span>
-                  <span className="mono-text text-xs break-all">
+                  <span className="font-inter text-lg font-medium text-charcoal">Contract:</span>
+                  <span className="font-mono text-xs break-all text-charcoal">
                     {contractAddress}
                   </span>
                 </div>
                 {address && (
                   <>
                     <div className="flex justify-between items-center">
-                      <span className="body-text">Your Address:</span>
-                      <span className="mono-text text-xs break-all">
+                      <span className="font-inter text-lg font-medium text-charcoal">Your Address:</span>
+                      <span className="font-mono text-xs break-all text-charcoal">
                         {address.slice(0, 6)}...{address.slice(-4)}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="body-text">Claimable Amount:</span>
+                      <span className="font-inter text-lg font-medium text-charcoal">Claimable Amount:</span>
                       <span className="font-bebas text-lg text-broke-600">
                         {claimableAmount ? formatNumber(claimableAmount) : '0'} BROKE
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="body-text">Has Claimed:</span>
+                      <span className="font-inter text-lg font-medium text-charcoal">Has Claimed:</span>
                       <span className="font-bebas text-lg">
                         {hasClaimed ? (
                           <span className="text-green-600 flex items-center">
@@ -145,22 +159,6 @@ const ClaimSection = () => {
                 )}
               </div>
             </div>
-
-            {/* Warning Box */}
-            <div className="bg-yellow-50 border-2 border-yellow-400 p-6">
-              <div className="flex items-start space-x-3">
-                <AlertTriangle className="w-6 h-6 text-yellow-600 flex-shrink-0 mt-1" />
-                <div>
-                  <h4 className="font-bebas text-lg tracking-wider text-charcoal mb-2">
-                    WARNING:
-                  </h4>
-                  <p className="body-text text-sm">
-                    Buying BROKECOIN may result in short-term laughter, long-term regret, and excessive screenshotting. 
-                    Please consult your wallet before proceeding.
-                  </p>
-                </div>
-              </div>
-            </div>
           </motion.div>
 
           {/* Right side - Claim Form */}
@@ -170,18 +168,18 @@ const ClaimSection = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="bg-white border-2 border-charcoal p-8">
-              <h3 className="font-bebas text-2xl tracking-wider text-charcoal mb-6">
+            <div className="bg-white border-2 border-charcoal p-8 shadow-lg h-full flex flex-col">
+              <h3 className="font-bebas text-2xl lg:text-3xl tracking-wider text-charcoal mb-6">
                 CLAIM YOUR SHARE
               </h3>
 
               {!address ? (
                 <div className="text-center py-12">
-                  <p className="body-text mb-6">
+                  <p className="font-inter text-lg font-medium text-charcoal mb-6">
                     Connect your wallet to claim your BROKE tokens
                   </p>
-                  <div className="bg-paper border-2 border-charcoal p-4">
-                    <p className="mono-text text-sm">
+                  <div className="bg-gray-50 border-2 border-charcoal p-4">
+                    <p className="font-mono text-sm text-charcoal">
                       Wallet not connected
                     </p>
                   </div>
@@ -189,10 +187,10 @@ const ClaimSection = () => {
               ) : hasClaimed ? (
                 <div className="text-center py-12">
                   <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                  <h4 className="font-bebas text-xl tracking-wider text-charcoal mb-2">
+                  <h4 className="font-bebas text-xl lg:text-2xl tracking-wider text-charcoal mb-2">
                     ALREADY CLAIMED
                   </h4>
-                  <p className="body-text">
+                  <p className="font-inter text-base lg:text-lg text-charcoal">
                     You've already claimed your BROKE tokens. Welcome to the broke family!
                   </p>
                 </div>
@@ -202,8 +200,8 @@ const ClaimSection = () => {
                     <label className="block font-bebas text-lg tracking-wider text-charcoal mb-2">
                       CLAIM AMOUNT
                     </label>
-                    <div className="bg-paper border-2 border-charcoal p-4 text-center">
-                      <span className="font-bebas text-2xl text-broke-600">
+                    <div className="bg-gray-50 border-2 border-charcoal p-4 text-center">
+                      <span className="font-bebas text-2xl lg:text-3xl text-broke-600">
                         25,000 BROKE
                       </span>
                     </div>
@@ -221,7 +219,7 @@ const ClaimSection = () => {
                         ) : (
                           <XCircle className="w-5 h-5 text-red-600" />
                         )}
-                        <span className="body-text text-sm">
+                        <span className="font-inter text-sm text-charcoal">
                           {claimStatus.message}
                         </span>
                       </div>
@@ -231,7 +229,7 @@ const ClaimSection = () => {
                   <button
                     onClick={handleClaim}
                     disabled={isClaiming || hasClaimed}
-                    className={`w-full py-4 font-bebas text-xl tracking-wider transition-all duration-300 ${
+                    className={`w-full py-4 font-bebas text-xl lg:text-2xl tracking-wider transition-all duration-300 ${
                       isClaiming || hasClaimed
                         ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
                         : 'bg-charcoal text-white hover:bg-broke-600 hover:scale-105'
@@ -241,7 +239,7 @@ const ClaimSection = () => {
                   </button>
 
                   <div className="text-center">
-                    <p className="mono-text text-xs">
+                    <p className="font-mono text-xs text-charcoal">
                       Gas fees apply. No refunds. We're all in this together.
                     </p>
                   </div>

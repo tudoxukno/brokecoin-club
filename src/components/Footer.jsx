@@ -13,67 +13,55 @@ const Footer = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="flex items-center mb-6">
-              <div className="bg-white text-charcoal w-12 h-12 flex items-center justify-center font-bebas text-3xl font-bold mr-4">
-                B
-              </div>
-              <div>
+            <div className="flex flex-col items-start mb-6">
+              <img 
+                src="/images/brokecoin-logo.png" 
+                alt="BROKECOIN Logo" 
+                className="w-48 h-48 mb-4 object-contain"
+              />
+              <div className="text-left">
                 <h3 className="font-bebas text-2xl tracking-wider">BROKECOIN</h3>
-                <p className="mono-text text-xs">Est. 2024 (maybe)</p>
+                <p className="mono-text text-xs">Est. 2025 (maybe)</p>
               </div>
             </div>
             <p className="body-text text-sm mb-6">
               The only coin backed by tears and bad decisions. 
               We're not financial advisors, we're barely functional adults.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-white hover:text-broke-300 transition-colors">
-                <Heart className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-white hover:text-broke-300 transition-colors">
-                <Coffee className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-white hover:text-broke-300 transition-colors">
-                <Zap className="w-5 h-5" />
-              </a>
-            </div>
           </motion.div>
 
-          {/* Middle Column - Quick Links */}
+          {/* Middle Column - Social */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h4 className="font-bebas text-xl tracking-wider mb-6">QUICK LINKS</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#home" className="body-text text-sm hover:text-broke-300 transition-colors">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="#brokenomics" className="body-text text-sm hover:text-broke-300 transition-colors">
-                  Brokenomics
-                </a>
-              </li>
-              <li>
-                <a href="#whitepaper" className="body-text text-sm hover:text-broke-300 transition-colors">
-                  Whitepaper
-                </a>
-              </li>
-              <li>
-                <a href="#claim-section" className="body-text text-sm hover:text-broke-300 transition-colors">
-                  Claim BROKE
-                </a>
-              </li>
-              <li>
-                <a href="#" className="body-text text-sm hover:text-broke-300 transition-colors">
-                  B.R.O.K.E. Bureau
-                </a>
-              </li>
-            </ul>
+            <h4 className="font-bebas text-xl tracking-wider mb-6">SOCIAL</h4>
+            <div className="space-y-6">
+              <a 
+                href="https://x.com/brokecoinbase" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-3 body-text text-sm text-white hover:text-broke-300 transition-colors"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                <span>X</span>
+              </a>
+              <a 
+                href="https://t.me/brokecoinbillionaires" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-3 body-text text-sm text-white hover:text-broke-300 transition-colors"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                </svg>
+                <span>Telegram</span>
+              </a>
+            </div>
           </motion.div>
 
           {/* Right Column - Lore & Disclaimers */}
@@ -83,15 +71,33 @@ const Footer = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <h4 className="font-bebas text-xl tracking-wider mb-6">LORE & LEGAL</h4>
+            <h4 className="font-bebas text-xl tracking-wider mb-6">LEGAL</h4>
             <div className="space-y-4">
-              <div className="bg-white bg-opacity-10 p-4 border border-white border-opacity-20">
-                <h5 className="font-bebas text-sm tracking-wider mb-2">B.R.O.K.E. MANIFESTO</h5>
-                <p className="mono-text text-xs">
-                  Buy in with blind faith. Refresh charts religiously. 
-                  Overhype in group chats. Keep ignoring red flags. 
-                  Exit? Never heard of her.
-                </p>
+              <div className="space-y-2">
+                <a 
+                  href="/terms" 
+                  className="block body-text text-sm text-white hover:text-broke-300 transition-colors"
+                >
+                  Terms of Service
+                </a>
+                <a 
+                  href="/privacy" 
+                  className="block body-text text-sm text-white hover:text-broke-300 transition-colors"
+                >
+                  Privacy Policy
+                </a>
+                <a 
+                  href="/cookies" 
+                  className="block body-text text-sm text-white hover:text-broke-300 transition-colors"
+                >
+                  Cookie Policy
+                </a>
+                <a 
+                  href="/disclaimer" 
+                  className="block body-text text-sm text-white hover:text-broke-300 transition-colors"
+                >
+                  Full Disclaimer
+                </a>
               </div>
               
               <div className="bg-yellow-600 bg-opacity-20 p-4 border border-yellow-400 border-opacity-30">
@@ -99,14 +105,6 @@ const Footer = () => {
                 <p className="mono-text text-xs">
                   This is not financial advice. This is barely coherent. 
                   Invest at your own risk. We're all going to zero anyway.
-                </p>
-              </div>
-
-              <div className="bg-paper bg-opacity-10 p-4 border border-white border-opacity-20">
-                <h5 className="font-bebas text-sm tracking-wider mb-2">SIDE EFFECTS</h5>
-                <p className="mono-text text-xs">
-                  May cause: excessive screenshotting, 2AM wallet checking, 
-                  delusional optimism, and temporary financial amnesia.
                 </p>
               </div>
             </div>
@@ -121,23 +119,10 @@ const Footer = () => {
           viewport={{ once: true }}
           className="border-t border-white border-opacity-20 mt-12 pt-8"
         >
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-center md:text-left">
-              <p className="mono-text text-xs">
-                © 2024 BROKECOIN. All rights reserved (whatever that means).
-              </p>
-            </div>
-            
-            <div className="flex items-center space-x-6">
-              <div className="bg-white bg-opacity-10 px-4 py-2 rounded-full">
-                <span className="font-bebas text-sm tracking-wider">FREE ENTRY</span>
-              </div>
-              <div className="text-center">
-                <p className="font-bebas text-sm tracking-wider">BROKECOIN BILLIONAIRES</p>
-                <p className="mono-text text-xs">TELEGRAM GROUP</p>
-                <p className="mono-text text-xs italic">We're open. (Emotionally)</p>
-              </div>
-            </div>
+          <div className="text-center">
+            <p className="mono-text text-xs">
+              © 2025 BROKECOIN | A U3 Labs, LLC Production | All rights reserved (whatever that means).
+            </p>
           </div>
 
           <div className="text-center mt-8">
