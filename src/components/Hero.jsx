@@ -1,25 +1,8 @@
 import { motion } from 'framer-motion';
 import { ChevronDown, AlertTriangle, ArrowDownToLine } from 'lucide-react';
+import BrokeBoardTicker from './BrokeBoardTicker';
 
 const Hero = () => {
-  const stats = [
-    {
-      label: "Market Cap",
-      value: "$ -42.69"
-    },
-    {
-      label: "Holders",
-      value: "1.5"
-    },
-    {
-      label: "Volume (24h)",
-      value: "0.00 BROKE"
-    },
-    {
-      label: "Liquidity Locked",
-      value: "Emotionally."
-    }
-  ];
 
   return (
     <section id="home" className="relative min-h-screen flex flex-col pt-6 overflow-hidden">
@@ -84,30 +67,8 @@ const Hero = () => {
               BROKEBOARD™
             </h2>
 
-            {/* Stats in 2 columns for mobile */}
-            <div className="grid grid-cols-2 gap-6 mb-6">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 + (index * 0.1) }}
-                  className="text-left"
-                >
-                  <h3 className="font-inter text-sm font-medium text-dust mb-1 uppercase tracking-wider">
-                    {stat.label}
-                  </h3>
-                  <p className="font-inter text-xl sm:text-2xl font-semibold text-charcoal">
-                    {stat.value}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Bottom text */}
-            <p className="font-inter text-sm font-medium text-dust text-left mb-8">
-              Accurate as of vibes.
-            </p>
+            {/* BROKEBOARD Ticker for Mobile */}
+            <BrokeBoardTicker />
           </motion.div>
 
           {/* Bottom Divider Line - Mobile */}
@@ -237,30 +198,8 @@ const Hero = () => {
                   BROKEBOARD™
                 </h2>
 
-                {/* Stats in horizontal row */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-6">
-                  {stats.map((stat, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.5 + (index * 0.1) }}
-                      className="text-left"
-                    >
-                      <h3 className="font-inter text-sm font-medium text-dust mb-2 uppercase tracking-wider">
-                        {stat.label}
-                      </h3>
-                      <p className="font-inter text-xl lg:text-2xl xl:text-3xl font-semibold text-charcoal">
-                        {stat.value}
-                      </p>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Bottom text */}
-                <p className="font-inter text-base font-medium text-dust mb-8">
-                  Accurate as of vibes.
-                </p>
+                {/* BROKEBOARD Ticker for Desktop */}
+                <BrokeBoardTicker />
 
                 {/* Bottom divider - Full width */}
                 <div className="border-t-2 border-charcoal mb-12"></div>
@@ -384,29 +323,8 @@ const Hero = () => {
             <h2 className="font-inter text-3xl font-semibold text-charcoal mb-8 text-left">
               BROKEBOARD™
             </h2>
-            {/* Stats in 2x2 grid for tablet */}
-            <div className="grid grid-cols-2 gap-x-12 gap-y-8 mb-8">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                  className="text-left"
-                >
-                  <h3 className="font-inter text-base font-medium text-dust mb-1 uppercase tracking-wider">
-                    {stat.label}
-                  </h3>
-                  <p className="font-inter text-2xl font-semibold text-charcoal">
-                    {stat.value}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-            {/* Bottom text */}
-            <p className="font-inter text-base font-medium text-dust text-left mb-8">
-              Accurate as of vibes.
-            </p>
+            {/* BROKEBOARD Ticker for Tablet */}
+            <BrokeBoardTicker />
           </motion.div>
 
           {/* Warning Box - Tablet */}
