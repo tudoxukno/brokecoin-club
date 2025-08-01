@@ -136,7 +136,7 @@ const Hero = () => {
                               {/* Desktop Layout - Perfect Mockup Match */}
             <div className="hidden 2xl:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               {/* Hero Section - Headline and Coin */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-16">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-8">
                 {/* Left side - Headline and CTA */}
                 <motion.div
                   initial={{ opacity: 0, x: -50 }}
@@ -202,7 +202,7 @@ const Hero = () => {
                 <BrokeBoardTicker />
 
                 {/* Bottom divider - Full width */}
-                <div className="border-t-2 border-charcoal mb-12"></div>
+                <div className="border-t-2 border-charcoal mb-8"></div>
               </motion.div>
 
               {/* Bottom Section - Warning and Scroll */}
