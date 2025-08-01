@@ -136,7 +136,7 @@ const Whitepaper = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
+        {/* Header Section - Responsive Layout */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -144,7 +144,8 @@ const Whitepaper = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <div className="flex justify-center items-center space-x-8 ml-64">
+          {/* Desktop Layout - Side by side */}
+          <div className="hidden lg:flex justify-center items-center space-x-8 ml-64">
             <img
               src="/images/whitepaper-header.png"
               alt="WHITEPAPER"
@@ -156,10 +157,24 @@ const Whitepaper = () => {
               className="h-48 sm:h-56 lg:h-64 object-contain"
             />
           </div>
+          
+          {/* Mobile/Tablet Layout - Stacked vertically */}
+          <div className="lg:hidden flex flex-col items-center space-y-4">
+            <img
+              src="/images/whitepaper-header.png"
+              alt="WHITEPAPER"
+              className="h-24 sm:h-32 object-contain"
+            />
+            <img
+              src="/images/wip-stickynote.png"
+              alt="WIP?"
+              className="h-32 sm:h-40 object-contain"
+            />
+          </div>
         </motion.div>
 
         {/* Introduction and Mission Statement - Vertical Stacking */}
-        <div className="space-y-12 mb-16">
+        <div className="space-y-8 sm:space-y-12 mb-12 sm:mb-16">
           {/* Introduction */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -167,31 +182,29 @@ const Whitepaper = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="font-mono text-2xl font-semibold text-black mb-4">INTRODUCTION</h3>
-            <p className="font-mono text-lg font-medium text-black">
+            <h3 className="font-mono text-xl sm:text-2xl font-semibold text-black mb-3 sm:mb-4">INTRODUCTION</h3>
+            <p className="font-mono text-base sm:text-lg font-medium text-black mb-6 sm:mb-8">
               So you're broke. Welcome. This is the inevitable outcome of financial despair and delusional optimism.
             </p>
-          </motion.div>
-
-          {/* Mission Statement */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="font-mono text-2xl font-semibold text-black mb-4">MISSION STATEMENT?</h3>
-            <p className="font-mono text-lg font-medium text-black mb-4">
-              We didn't choose the broke life; it chose us.
-            </p>
-            <p className="font-mono text-lg font-medium text-black italic">
-              "You have to be broke before you can be rich." - Grant Cardone, allegedly.
-            </p>
+            
+            {/* Mission Statement - Subsection of Introduction */}
+            <div className="ml-4 sm:ml-6 border-l-2 border-black pl-4 sm:pl-6">
+              <h4 className="font-mono text-lg sm:text-xl font-semibold text-black mb-3 sm:mb-4">MISSION STATEMENT?</h4>
+              <p className="font-mono text-base sm:text-lg font-medium text-black mb-3 sm:mb-4">
+                We didn't choose the broke life; it chose us.
+              </p>
+              <p className="font-mono text-base sm:text-lg font-medium text-black italic mb-2">
+                "You have to be broke before you can be rich."
+              </p>
+              <p className="font-mono text-base sm:text-lg font-medium text-black italic">
+                - Grant Cardone, allegedly.
+              </p>
+            </div>
           </motion.div>
         </div>
 
         {/* Main Content - Single Column */}
-        <div className="space-y-12">
+        <div className="space-y-8 sm:space-y-12">
           {/* What is $BROKE */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -199,8 +212,8 @@ const Whitepaper = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <h3 className="font-mono text-2xl font-semibold text-black mb-4">WHAT IS $BROKE?</h3>
-            <p className="font-mono text-lg font-medium text-black">
+            <h3 className="font-mono text-xl sm:text-2xl font-semibold text-black mb-3 sm:mb-4">WHAT IS $BROKE?</h3>
+            <p className="font-mono text-base sm:text-lg font-medium text-black">
               A meme, a movement, a minor financial decision with major emotional fallout... It exists solely to plunge further into collective wobbling.
             </p>
           </motion.div>
@@ -212,37 +225,32 @@ const Whitepaper = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <h3 className="font-mono text-2xl font-semibold text-black mb-4">BROKENOMICS DEEP DIVE</h3>
-            <p className="font-mono text-lg font-medium text-black mb-6">
+            <h3 className="font-mono text-xl sm:text-2xl font-semibold text-black mb-3 sm:mb-4">BROKENOMICS DEEP DIVE</h3>
+            <p className="font-mono text-base sm:text-lg font-medium text-black mb-6 sm:mb-8">
               $BROKE operates on a frictionless delusion protocol with a fixed supply of 1 billion tokens. It feels like too much but also not enough.
             </p>
-          </motion.div>
-
-          {/* Distribution */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="font-mono text-2xl font-semibold text-black mb-6">DISTRIBUTION</h3>
-            <div className="space-y-4">
-              {distribution.map((item, index) => (
-                <div key={index} className="border-l-4 border-black pl-4">
-                  <div className="flex items-start space-x-2">
-                    <span className="font-mono text-lg font-semibold text-black">{item.percentage}</span>
-                    <span className="font-mono text-lg font-semibold text-black">-</span>
-                    <span className="font-mono text-lg font-semibold text-black">{item.title}</span>
+            
+            {/* Distribution - Subsection of BROKENOMICS DEEP DIVE */}
+            <div className="ml-4 sm:ml-6 pl-4 sm:pl-6">
+              <h4 className="font-mono text-lg sm:text-xl font-semibold text-black mb-4 sm:mb-6">DISTRIBUTION</h4>
+              <div className="space-y-3 sm:space-y-4">
+                {distribution.map((item, index) => (
+                  <div key={index} className="border-l-4 border-black pl-3 sm:pl-4">
+                    <div className="flex items-start space-x-2">
+                      <span className="font-mono text-base sm:text-lg font-semibold text-black">{item.percentage}</span>
+                      <span className="font-mono text-base sm:text-lg font-semibold text-black">-</span>
+                      <span className="font-mono text-base sm:text-lg font-semibold text-black">{item.title}</span>
+                    </div>
+                    <p className="font-mono text-sm sm:text-base font-medium text-black ml-4 sm:ml-6 mt-1">
+                      {item.description}
+                    </p>
                   </div>
-                  <p className="font-mono text-base font-medium text-black ml-6 mt-1">
-                    {item.description}
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
+              <p className="font-mono text-sm sm:text-base font-medium text-black mt-4 sm:mt-6">
+                Estimated 20M $BROKE currently floating in claim-contract limbo. We're calling it Broke Stimmy Phase 2.
+              </p>
             </div>
-            <p className="font-mono text-base font-medium text-black mt-6">
-              Estimated 20M $BROKE currently floating in claim-contract limbo. We're calling it Broke Stimmy Phase 2.
-            </p>
           </motion.div>
 
           {/* Roadmap */}
@@ -252,22 +260,22 @@ const Whitepaper = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             viewport={{ once: true }}
           >
-            <h3 className="font-mono text-2xl font-semibold text-black mb-8">ROADMAP? LMAO OK, FINE</h3>
+            <h3 className="font-mono text-xl sm:text-2xl font-semibold text-black mb-6 sm:mb-8">ROADMAP? LMAO OK, FINE</h3>
             <div className="relative">
               {/* Vertical Timeline Line */}
-              <div className="absolute left-6 top-0 bottom-0 w-0.5 bg-black"></div>
+              <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-0.5 bg-black"></div>
               
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8">
                 {roadmap.map((phase, index) => (
                   <div key={phase.quarter} className="relative flex items-start">
                     {/* Content */}
-                    <div className="ml-12 flex-1">
-                      <h4 className="font-mono text-lg font-semibold text-black mb-4">
+                    <div className="ml-8 sm:ml-12 flex-1">
+                      <h4 className="font-mono text-base sm:text-lg font-semibold text-black mb-3 sm:mb-4">
                         {phase.quarter}
                       </h4>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1 sm:space-y-2">
                         {phase.items.map((item, itemIndex) => (
-                          <li key={itemIndex} className="font-mono text-base font-medium text-black flex items-start space-x-2">
+                          <li key={itemIndex} className="font-mono text-sm sm:text-base font-medium text-black flex items-start space-x-2">
                             <span className="text-black mt-1">•</span>
                             <span>{item}</span>
                           </li>
@@ -287,19 +295,19 @@ const Whitepaper = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
           >
-            <h3 className="font-mono text-2xl font-semibold text-black mb-4">HOW TO BUY</h3>
-            <p className="font-mono text-base font-medium text-black mb-6">
+            <h3 className="font-mono text-xl sm:text-2xl font-semibold text-black mb-3 sm:mb-4">HOW TO BUY</h3>
+            <p className="font-mono text-sm sm:text-base font-medium text-black mb-4 sm:mb-6">
               This isn't financial advice, and we're not financial advisors (unless... you wanted us to be?)
             </p>
-            <ol className="space-y-3">
+            <ol className="space-y-2 sm:space-y-3">
               {howToBuy.map((step, index) => (
-                <li key={index} className="font-mono text-base font-medium text-black flex items-start space-x-3">
-                  <span className="font-mono text-base font-semibold text-black">{index + 1}.</span>
+                <li key={index} className="font-mono text-sm sm:text-base font-medium text-black flex items-start space-x-3">
+                  <span className="font-mono text-sm sm:text-base font-semibold text-black">{index + 1}.</span>
                   <span>{step}</span>
                 </li>
               ))}
             </ol>
-            <p className="font-mono text-base font-medium text-black mt-6">
+            <p className="font-mono text-sm sm:text-base font-medium text-black mt-4 sm:mt-6">
               Congrats. You're part of the community now. (P.S. There's no help coming.)
             </p>
           </motion.div>
@@ -311,31 +319,32 @@ const Whitepaper = () => {
             transition={{ duration: 0.8, delay: 0.7 }}
             viewport={{ once: true }}
           >
-            <h3 className="font-mono text-2xl font-semibold text-black mb-6">
+            <h3 className="font-mono text-xl sm:text-2xl font-semibold text-black mb-4 sm:mb-6">
               FAQ (FREQUENTLY AVOIDED QUESTIONS)
             </h3>
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {faq.map((item, index) => (
                 <div key={index}>
-                  <h4 className="font-mono text-lg font-semibold text-black mb-2">
+                  <h4 className="font-mono text-base sm:text-lg font-semibold text-black mb-1 sm:mb-2">
                     Q: {item.q}
                   </h4>
-                  <p className="font-mono text-base font-medium text-black">A: {item.a}</p>
+                  <p className="font-mono text-sm sm:text-base font-medium text-black">A: {item.a}</p>
                 </div>
               ))}
             </div>
           </motion.div>
         </div>
 
-        {/* Bottom CTA Section */}
+        {/* Bottom CTA Section - Responsive Layout */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
           viewport={{ once: true }}
-          className="text-center mt-16"
+          className="text-center mt-12 sm:mt-16"
         >
-          <div className="relative inline-block">
+          {/* Desktop Layout - Overlapping */}
+          <div className="hidden lg:block relative inline-block">
             <img
               src="/images/download-cta.png"
               alt="DOWNLOAD THE FULL WHITEPAPER PDF"
@@ -348,6 +357,20 @@ const Whitepaper = () => {
                 className="w-96 h-96 object-contain"
               />
             </div>
+          </div>
+          
+          {/* Mobile/Tablet Layout - Stacked vertically */}
+          <div className="lg:hidden flex flex-col items-center space-y-4">
+            <img
+              src="/images/download-cta.png"
+              alt="DOWNLOAD THE FULL WHITEPAPER PDF"
+              className="w-full max-w-md object-contain"
+            />
+            <img
+              src="/images/telegram-sticker.png"
+              alt="FREE ENTRY BROKECOIN BILLIONAIRES TELEGRAM GROUP"
+              className="w-64 h-64 object-contain"
+            />
           </div>
         </motion.div>
       </div>
