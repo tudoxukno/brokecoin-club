@@ -20,31 +20,31 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-charcoal text-white px-8 py-4 font-bebas text-lg tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105;
+    @apply bg-charcoal text-white px-6 sm:px-8 py-3 sm:py-4 font-bebas text-base sm:text-lg tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105;
   }
   
   .btn-secondary {
-    @apply bg-white text-charcoal border-2 border-charcoal px-8 py-4 font-bebas text-lg tracking-wider hover:bg-charcoal hover:text-white transition-all duration-300;
+    @apply bg-white text-charcoal border-2 border-charcoal px-6 sm:px-8 py-3 sm:py-4 font-bebas text-base sm:text-lg tracking-wider hover:bg-charcoal hover:text-white transition-all duration-300;
   }
   
   .section-title {
-    @apply font-newsreader text-4xl md:text-6xl font-bold text-charcoal;
+    @apply font-newsreader text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-charcoal;
   }
   
   .hero-text {
-    @apply font-newsreader text-2xl md:text-4xl lg:text-6xl font-semibold text-charcoal leading-tight;
+    @apply font-newsreader text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-semibold text-charcoal leading-tight;
   }
   
   .body-text {
-    @apply font-inter text-base md:text-lg text-charcoal leading-relaxed;
+    @apply font-inter text-sm sm:text-base md:text-lg text-charcoal leading-relaxed;
   }
   
   .mono-text {
-    @apply font-mono text-sm text-dust;
+    @apply font-mono text-xs sm:text-sm text-dust;
   }
   
   .loud-text {
-    @apply font-bebas text-xl md:text-2xl tracking-wider text-charcoal;
+    @apply font-bebas text-lg sm:text-xl md:text-2xl lg:text-3xl tracking-wider text-charcoal;
   }
 }
 

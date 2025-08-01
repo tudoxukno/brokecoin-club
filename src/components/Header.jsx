@@ -1,6 +1,14 @@
+import { useState } from 'react';
 import { ConnectWallet } from '@thirdweb-dev/react';
+import { Menu, X } from 'lucide-react';
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <header className="bg-black text-white sticky top-0 z-50 shadow-lg">
       {/* Desktop Header - No container padding to allow edge positioning */}
@@ -80,9 +88,9 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Header - With container padding */}
-      <div className="md:hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+      {/* Mobile Header - With hamburger menu */}
+      <div className="md:hidden">
+        <div className="flex justify-between items-center h-16 px-4">
           {/* Mobile Logo */}
           <div className="flex items-center">
             <img 
@@ -99,62 +107,95 @@ const Header = () => {
             </div>
           </div>
 
-          {/* Mobile CTA */}
-          <div className="flex items-center">
-            <ConnectWallet 
-              theme="dark"
-              btnTitle={
-                <div className="flex items-center space-x-2 font-bebas text-sm tracking-wider">
-                  <img 
-                    src="/images/purchase-tag.png" 
-                    alt="" 
-                    className="w-3 h-3"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'block';
-                    }}
-                  />
-                  <span className="hidden">🏷️</span>
-                  <span>BUY</span>
-                </div>
-              }
-              modalTitle="Purchase BROKECOIN"
-              modalSize="wide"
-              welcomeScreen={{
-                title: "Buy BROKECOIN",
-                subtitle: "Join the broke revolution"
-              }}
-              className="!bg-transparent !border-none !text-white font-bebas text-sm tracking-wider hover:text-broke-300 transition-colors !p-0 !m-0 !shadow-none"
-              style={{
-                backgroundColor: 'transparent !important',
-                border: 'none !important',
-                color: 'white !important',
-                padding: '0 !important',
-                margin: '0 !important',
-                boxShadow: 'none !important'
-              }}
-            />
-          </div>
+          {/* Mobile Hamburger Menu Button */}
+          <button
+            onClick={toggleMenu}
+            className="text-white p-2 hover:text-broke-300 transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
         </div>
 
-        {/* Mobile Navigation */}
-        <div className="py-4 border-t border-gray-700">
-          <nav className="flex flex-col space-y-3">
-            <a href="#home" className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors">
+        {/* Mobile Navigation Menu */}
+        <div className={`${isMenuOpen ? 'block' : 'hidden'} bg-black border-t border-gray-700`}>
+          <nav className="flex flex-col py-4">
+            <a 
+              href="#home" 
+              className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors px-4 py-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
               HOME
             </a>
-            <a href="#brokenomics" className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors">
+            <a 
+              href="#brokenomics" 
+              className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors px-4 py-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
               BROKENOMICS
             </a>
-            <a href="#whitepaper" className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors">
+            <a 
+              href="#whitepaper" 
+              className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors px-4 py-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
               WHITEPAPER
             </a>
-            <a href="#proof" className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors">
+            <a 
+              href="#proof" 
+              className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors px-4 py-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
               PROOF
             </a>
-            <a href="#tap-in" className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors">
+            <a 
+              href="#tap-in" 
+              className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors px-4 py-3"
+              onClick={() => setIsMenuOpen(false)}
+            >
               TAP IN
             </a>
+            
+            {/* Mobile CTA inside menu */}
+            <div className="px-4 py-3 border-t border-gray-700 mt-2">
+              <ConnectWallet 
+                theme="dark"
+                btnTitle={
+                  <div className="flex items-center space-x-2 font-bebas text-lg tracking-wider">
+                    <img 
+                      src="/images/purchase-tag.png" 
+                      alt="" 
+                      className="w-4 h-4"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'block';
+                      }}
+                    />
+                    <span className="hidden">🏷️</span>
+                    <span>BUY BROKECOIN</span>
+                  </div>
+                }
+                modalTitle="Purchase BROKECOIN"
+                modalSize="wide"
+                welcomeScreen={{
+                  title: "Buy BROKECOIN",
+                  subtitle: "Join the broke revolution"
+                }}
+                className="!bg-transparent !border-none !text-white font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors !p-0 !m-0 !shadow-none"
+                style={{
+                  backgroundColor: 'transparent !important',
+                  border: 'none !important',
+                  color: 'white !important',
+                  padding: '0 !important',
+                  margin: '0 !important',
+                  boxShadow: 'none !important'
+                }}
+              />
+            </div>
           </nav>
         </div>
       </div>

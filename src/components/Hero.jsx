@@ -22,145 +22,139 @@ const Hero = () => {
   ];
 
   return (
-    <section id="home" className="relative h-screen flex items-start justify-center overflow-hidden pt-6">
-      {/* Long top border that extends behind the coin - positioned directly below BUY BROKECOIN NOW button */}
-      <div className="absolute left-0 right-0 h-px bg-charcoal z-0" style={{ top: 'calc(50% - 120px)' }}></div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left side - Copy - Moved to the left using margin */}
+    <section id="home" className="relative min-h-screen flex flex-col pt-6 overflow-hidden">
+                  {/* Mobile Layout */}
+            <div className="md:hidden max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 flex flex-col">
+        {/* Mobile Hero Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex-1 flex flex-col"
+        >
+          {/* Headline */}
+          <h1 className="hero-text text-2xl sm:text-3xl md:text-4xl leading-tight text-center mb-8">
+            The only coin backed by tears and bad decisions.
+          </h1>
+
+          {/* Coin Image - Centered */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8 lg:-ml-48 lg:pt-8"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex justify-center mb-8"
           >
-            <h1 className="hero-text text-3xl md:text-5xl lg:text-7xl xl:text-8xl leading-tight">
-              The only coin backed by tears and&nbsp;bad&nbsp;decisions.
-            </h1>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a
-                href="https://thirdweb.com/contracts/deploy/0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-charcoal text-white px-12 py-6 font-bebas text-xl md:text-2xl lg:text-3xl tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105 rounded-lg text-center"
-              >
-                BUY BROKECOIN NOW
-              </a>
-            </div>
-
-            {/* BROKEBOARD Section - Integrated into hero flow */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              style={{ marginTop: '120px' }}
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96"
             >
-              {/* BROKEBOARD Title */}
-              <h2 className="font-inter text-3xl md:text-4xl lg:text-5xl font-semibold text-charcoal mb-8 text-left" style={{ marginTop: '-40px' }}>
-                BROKEBOARD™
-              </h2>
-
-              {/* Stats in horizontal row */}
-              <div className="grid grid-cols-4 mb-4" style={{ marginTop: '80px', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '5rem' }}>
-                {stats.map((stat, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.5 + (index * 0.1) }}
-                    className="text-left"
-                  >
-                    <h3 className="font-inter text-sm font-medium text-dust mb-1 uppercase tracking-wider whitespace-nowrap">
-                      {stat.label}
-                    </h3>
-                    <p className="font-inter text-xl md:text-2xl lg:text-3xl font-semibold text-charcoal whitespace-nowrap">
-                      {stat.value}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Bottom text */}
-              <p className="font-inter text-base font-medium text-dust text-left" style={{ marginTop: '80px' }}>
-                Accurate as of vibes.
-              </p>
+              <img
+                src="/images/hero-image.png"
+                alt="BROKECOIN - Crying Coin"
+                className="w-full h-full object-contain"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'block';
+                }}
+              />
             </motion.div>
-
-            {/* Bottom border that extends behind the coin - same width as top divider */}
-            <div className="absolute left-0 right-0 h-px bg-charcoal z-0" style={{ top: 'calc(50% + 200px)' }}></div>
           </motion.div>
 
-          {/* Right side - Crying Coin - Unchanged */}
+          {/* CTA Button - Centered */}
+          <div className="flex justify-center mb-12">
+            <a
+              href="https://thirdweb.com/contracts/deploy/0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-charcoal text-white px-8 py-4 font-bebas text-xl sm:text-2xl tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105 rounded-lg text-center"
+            >
+              BUY BROKECOIN NOW
+            </a>
+          </div>
+
+          {/* BROKEBOARD Section - Mobile */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex justify-center lg:justify-end"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="border-t-2 border-charcoal pt-8"
           >
-            <div className="relative lg:translate-x-32">
-              {/* Main Coin */}
-              <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="relative w-96 h-96 lg:w-[600px] lg:h-[600px] xl:w-[700px] xl:h-[700px] z-30"
-              >
-                {/* Actual Coin Image */}
+            <h2 className="font-inter text-2xl sm:text-3xl font-semibold text-charcoal mb-6 text-left">
+              BROKEBOARD™
+            </h2>
+
+            {/* Stats in 2 columns for mobile */}
+            <div className="grid grid-cols-2 gap-6 mb-6">
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 + (index * 0.1) }}
+                  className="text-left"
+                >
+                  <h3 className="font-inter text-sm font-medium text-dust mb-1 uppercase tracking-wider">
+                    {stat.label}
+                  </h3>
+                  <p className="font-inter text-xl sm:text-2xl font-semibold text-charcoal">
+                    {stat.value}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Bottom text */}
+            <p className="font-inter text-sm font-medium text-dust text-left mb-8">
+              Accurate as of vibes.
+            </p>
+          </motion.div>
+
+          {/* Bottom Divider Line - Mobile */}
+          <div className="border-t-2 border-charcoal mb-12"></div>
+
+          {/* Warning Box - Mobile */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="w-full mb-16"
+          >
+            <div className="border-2 border-charcoal p-6 sm:p-8 shadow-lg" style={{ backgroundColor: '#CEC5BA' }}>
+              <div className="flex items-start space-x-3 sm:space-x-4">
                 <img
-                  src="/images/hero-image.png"
-                  alt="BROKECOIN - Crying Coin"
-                  className="w-full h-full object-contain relative z-40"
+                  src="/images/warning-icon.png"
+                  alt="Warning"
+                  className="w-5 h-5 sm:w-6 sm:h-6 text-charcoal flex-shrink-0 mt-1"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'block';
                   }}
                 />
-
-                {/* Fallback CSS Coin */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-300 via-gray-400 to-gray-500 rounded-full shadow-2xl border-4 border-gray-600 hidden">
-                  {/* Coin Texture */}
-                  <div className="absolute inset-2 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-400 rounded-full">
-                    {/* Crying Face */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                        {/* Face */}
-                        <div className="w-32 h-32 mx-auto mb-4 relative">
-                          {/* Head */}
-                          <div className="w-full h-full bg-gray-600 rounded-full flex items-center justify-center">
-                            {/* Eyes */}
-                            <div className="flex space-x-8">
-                              <div className="w-6 h-6 bg-black rounded-full relative">
-                                <div className="absolute -bottom-2 left-1 w-2 h-4 bg-blue-400 rounded-full animate-pulse"></div>
-                              </div>
-                              <div className="w-6 h-6 bg-black rounded-full relative">
-                                <div className="absolute -bottom-2 right-1 w-2 h-4 bg-blue-400 rounded-full animate-pulse"></div>
-                              </div>
-                            </div>
-                          </div>
-                          {/* Mouth */}
-                          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-8 h-4 bg-black rounded-b-full"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 text-charcoal flex-shrink-0 mt-1 hidden" />
+                <div>
+                  <h4 className="font-inter text-base sm:text-lg font-semibold tracking-wider text-charcoal mb-2 sm:mb-3">
+                    WARNING:
+                  </h4>
+                  <p className="font-inter text-sm sm:text-base text-charcoal leading-relaxed">
+                    Buying BROKECOIN may result in short-term laughter, long-term regret, and excessive screenshotting.
+                    Please consult your wallet before proceeding.
+                  </p>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </motion.div>
-        </div>
 
-        {/* Bottom section with scroll indicator and warning box */}
-        {/* Scroll indicator */}
-        <div className="absolute bottom-48 left-0 px-4 sm:px-6 lg:px-8">
+          {/* Scroll Label - Mobile */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.8 }}
-            style={{ marginLeft: '400px', transform: 'translateY(-15px)' }}
+            className="text-center"
           >
-            <a href="#broke-board" className="flex flex-row items-center space-x-2 text-charcoal hover:text-broke-600 transition-colors">
+            <a href="#broke-board" className="flex flex-row items-center justify-center space-x-2 text-charcoal hover:text-broke-600 transition-colors">
               <svg 
-                  className="w-16 h-16 animate-bounce" 
+                  className="w-8 h-8 animate-bounce" 
                   viewBox="0 0 24 24" 
                   fill="none" 
                   stroke="currentColor" 
@@ -170,18 +164,257 @@ const Hero = () => {
                 >
                   <path d="M6 9l6 6 6-6"/>
                 </svg>
-              <span className="loud-text text-6xl">SCROLL TO SEE THE DAMAGE</span>
+              <span className="font-bebas text-2xl sm:text-3xl tracking-wider">
+                SCROLL TO SEE THE DAMAGE
+              </span>
             </a>
           </motion.div>
-        </div>
+        </motion.div>
+      </div>
 
-        {/* Warning box */}
-        <div className="absolute bottom-28 right-0 px-4 sm:px-6 lg:px-8">
+                              {/* Desktop Layout - Perfect Mockup Match */}
+            <div className="hidden 2xl:block max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              {/* Hero Section - Headline and Coin */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start mb-16">
+                {/* Left side - Headline and CTA */}
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="space-y-8"
+                >
+                  <h1 className="hero-text text-4xl lg:text-6xl xl:text-7xl 2xl:text-8xl leading-tight">
+                    The only coin backed by tears and bad decisions.
+                  </h1>
+                  <div>
+                    <a
+                      href="https://thirdweb.com/contracts/deploy/0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-charcoal text-white px-8 py-4 font-bebas text-xl lg:text-2xl tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105 rounded-lg inline-block"
+                    >
+                      BUY BROKECOIN NOW
+                    </a>
+                  </div>
+                </motion.div>
+
+                {/* Right side - Coin */}
+                <motion.div
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  className="flex justify-center lg:justify-end"
+                >
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative w-80 h-80 lg:w-96 lg:h-96 xl:w-[500px] xl:h-[500px] 2xl:w-[600px] 2xl:h-[600px]"
+                  >
+                    <img
+                      src="/images/hero-image.png"
+                      alt="BROKECOIN - Crying Coin"
+                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'block';
+                      }}
+                    />
+                  </motion.div>
+                </motion.div>
+              </div>
+
+              {/* BROKEBOARD Section */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                {/* Top divider - Full width */}
+                <div className="border-t-2 border-charcoal mb-8"></div>
+                
+                {/* BROKEBOARD Title */}
+                <h2 className="font-inter text-3xl lg:text-4xl xl:text-5xl font-semibold text-charcoal mb-8">
+                  BROKEBOARD™
+                </h2>
+
+                {/* Stats in horizontal row */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-6">
+                  {stats.map((stat, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.5 + (index * 0.1) }}
+                      className="text-left"
+                    >
+                      <h3 className="font-inter text-sm font-medium text-dust mb-2 uppercase tracking-wider">
+                        {stat.label}
+                      </h3>
+                      <p className="font-inter text-xl lg:text-2xl xl:text-3xl font-semibold text-charcoal">
+                        {stat.value}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Bottom text */}
+                <p className="font-inter text-base font-medium text-dust mb-8">
+                  Accurate as of vibes.
+                </p>
+
+                {/* Bottom divider - Full width */}
+                <div className="border-t-2 border-charcoal mb-12"></div>
+              </motion.div>
+
+              {/* Bottom Section - Warning and Scroll */}
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                {/* Scroll indicator */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1, duration: 0.8 }}
+                  className="flex justify-center lg:justify-start"
+                >
+                  <a href="#broke-board" className="flex flex-row items-center space-x-4 text-charcoal hover:text-broke-600 transition-colors">
+                    <svg 
+                        className="w-12 h-12 animate-bounce" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="3"
+                        strokeLinecap="square"
+                        strokeLinejoin="miter"
+                      >
+                        <path d="M6 9l6 6 6-6"/>
+                      </svg>
+                    <span className="font-bebas text-3xl lg:text-4xl tracking-wider">SCROLL TO SEE THE DAMAGE</span>
+                  </a>
+                </motion.div>
+
+                {/* Warning box */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2, duration: 0.8 }}
+                  className="max-w-sm lg:max-w-md"
+                >
+                  <div className="border-2 border-charcoal p-6 shadow-lg" style={{ backgroundColor: '#CEC5BA' }}>
+                    <div className="flex items-start space-x-4">
+                      <img
+                        src="/images/warning-icon.png"
+                        alt="Warning"
+                        className="w-6 h-6 text-charcoal flex-shrink-0 mt-1"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'block';
+                        }}
+                      />
+                      <AlertTriangle className="w-6 h-6 text-charcoal flex-shrink-0 mt-1 hidden" />
+                      <div>
+                        <h4 className="font-inter text-lg font-semibold tracking-wider text-charcoal mb-3">
+                          WARNING:
+                        </h4>
+                        <p className="font-inter text-base text-charcoal leading-relaxed">
+                          Buying BROKECOIN may result in short-term laughter, long-term regret, and excessive screenshotting.
+                          Please consult your wallet before proceeding.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+
+      {/* Tablet Layout (md: 768px - 2xl: 1536px) */}
+      <div className="hidden md:flex 2xl:hidden max-w-3xl mx-auto px-6 py-12 flex-col">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex flex-col"
+        >
+          {/* Headline */}
+          <h1 className="hero-text text-3xl md:text-5xl text-center mb-10">
+            The only coin backed by tears and bad decisions.
+          </h1>
+
+          {/* Coin Image - Centered */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex justify-center mb-10"
+          >
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              className="relative w-80 h-80 md:w-96 md:h-96"
+            >
+              <img
+                src="/images/hero-image.png"
+                alt="BROKECOIN - Crying Coin"
+                className="w-full h-full object-contain"
+                onError={e => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'block';
+                }}
+              />
+            </motion.div>
+          </motion.div>
+
+          {/* CTA Button - Centered */}
+          <div className="flex justify-center mb-12">
+            <a
+              href="https://thirdweb.com/contracts/deploy/0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-charcoal text-white px-10 py-5 font-bebas text-2xl tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105 rounded-lg text-center"
+            >
+              BUY BROKECOIN NOW
+            </a>
+          </div>
+
+          {/* BROKEBOARD Section - Tablet */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="border-t-2 border-charcoal pt-10 mb-10"
+          >
+            <h2 className="font-inter text-3xl font-semibold text-charcoal mb-8 text-left">
+              BROKEBOARD™
+            </h2>
+            {/* Stats in 2x2 grid for tablet */}
+            <div className="grid grid-cols-2 gap-x-12 gap-y-8 mb-8">
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
+                  className="text-left"
+                >
+                  <h3 className="font-inter text-base font-medium text-dust mb-1 uppercase tracking-wider">
+                    {stat.label}
+                  </h3>
+                  <p className="font-inter text-2xl font-semibold text-charcoal">
+                    {stat.value}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+            {/* Bottom text */}
+            <p className="font-inter text-base font-medium text-dust text-left mb-8">
+              Accurate as of vibes.
+            </p>
+          </motion.div>
+
+          {/* Warning Box - Tablet */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.8 }}
-            className="max-w-sm"
+            className="w-full mb-12"
           >
             <div className="border-2 border-charcoal p-8 shadow-lg" style={{ backgroundColor: '#CEC5BA' }}>
               <div className="flex items-start space-x-4">
@@ -189,17 +422,17 @@ const Hero = () => {
                   src="/images/warning-icon.png"
                   alt="Warning"
                   className="w-6 h-6 text-charcoal flex-shrink-0 mt-1"
-                  onError={(e) => {
+                  onError={e => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'block';
                   }}
                 />
                 <AlertTriangle className="w-6 h-6 text-charcoal flex-shrink-0 mt-1 hidden" />
                 <div>
-                  <h4 className="font-inter text-2xl font-semibold tracking-wider text-charcoal mb-3">
+                  <h4 className="font-inter text-lg font-semibold tracking-wider text-charcoal mb-3">
                     WARNING:
                   </h4>
-                  <p className="body-text text-lg">
+                  <p className="font-inter text-base text-charcoal leading-relaxed">
                     Buying BROKECOIN may result in short-term laughter, long-term regret, and excessive screenshotting.
                     Please consult your wallet before proceeding.
                   </p>
@@ -207,7 +440,32 @@ const Hero = () => {
               </div>
             </div>
           </motion.div>
-        </div>
+
+          {/* Scroll Label - Tablet */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 0.8 }}
+            className="text-center"
+          >
+            <a href="#broke-board" className="flex flex-row items-center justify-center space-x-3 text-charcoal hover:text-broke-600 transition-colors">
+              <svg 
+                  className="w-10 h-10 animate-bounce" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="3"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
+                >
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              <span className="font-bebas text-3xl tracking-wider">
+                SCROLL TO SEE THE DAMAGE
+              </span>
+            </a>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
