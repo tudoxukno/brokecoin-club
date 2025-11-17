@@ -54,16 +54,7 @@ const Brokenomics = () => {
   ];
 
   return (
-    <section id="brokenomics" className="py-20 bg-white relative overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/images/bg2.png"
-          alt=""
-          className="w-full h-full object-cover"
-        />
-      </div>
-
+    <section id="brokenomics" className="py-20 bg-paper relative overflow-hidden">
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Desktop Layout - Two Columns */}

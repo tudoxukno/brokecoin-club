@@ -25,7 +25,7 @@ const BrokeBoard = () => {
   ];
 
   return (
-    <section id="broke-board" className="bg-white border-t-2 border-charcoal relative">
+    <section id="broke-board" className="bg-paper border-t-2 border-charcoal relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

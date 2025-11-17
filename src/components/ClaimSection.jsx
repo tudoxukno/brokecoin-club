@@ -68,18 +68,7 @@ const ClaimSection = () => {
   };
 
   return (
-    <section id="claim-section" className="py-20 bg-white relative overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/images/bg4.png"
-          alt=""
-          className="w-full h-full object-cover"
-        />
-        {/* Subtle overlay to reduce contrast */}
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-      </div>
-
+    <section id="claim-section" className="py-20 bg-paper relative overflow-hidden">
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
@@ -89,10 +78,10 @@ const ClaimSection = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="font-newsreader text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-6">
+          <h2 className="font-newsreader text-5xl lg:text-6xl xl:text-7xl font-bold text-charcoal mb-6">
             CLAIM YOUR BROKE
           </h2>
-          <p className="font-inter text-xl lg:text-2xl text-white font-medium">
+          <p className="font-inter text-xl lg:text-2xl text-charcoal font-medium">
             Join the broke revolution. Claim your 25,000 BROKE tokens and embrace the chaos.
           </p>
         </motion.div>

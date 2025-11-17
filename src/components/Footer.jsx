@@ -17,7 +17,7 @@ const Footer = () => {
               <img 
                 src="/images/brokecoin-logo.png" 
                 alt="BROKECOIN Logo" 
-                className="w-48 h-48 mb-4 object-contain"
+                className="w-20 h-20 mb-4 object-contain"
               />
               <div className="text-left">
                 <h3 className="font-bebas text-2xl tracking-wider">BROKECOIN</h3>

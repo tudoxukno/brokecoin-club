@@ -5,16 +5,7 @@ import BrokeBoardTicker from './BrokeBoardTicker';
 const Hero = () => {
 
   return (
-    <section id="home" className="relative min-h-screen flex flex-col pt-6 overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/images/bg1.png"
-          alt=""
-          className="w-full h-full object-cover"
-        />
-      </div>
-
+    <section id="home" className="relative min-h-screen flex flex-col pt-6 overflow-hidden bg-paper">
       {/* Content */}
       <div className="relative z-10">
         {/* Mobile Layout */}
