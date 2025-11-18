@@ -338,7 +338,7 @@ const Whitepaper = () => {
           <div className="hidden lg:flex justify-center relative">
             <div className="relative inline-block">
               <a
-                href="/whitepaper.pdf"
+                href="/brokecoin-whitepaper.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block"
@@ -362,7 +362,7 @@ const Whitepaper = () => {
           {/* Mobile/Tablet Layout - Stacked vertically */}
           <div className="lg:hidden flex flex-col items-center justify-center space-y-4">
             <a
-              href="/whitepaper.pdf"
+              href="/brokecoin-whitepaper.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block"
