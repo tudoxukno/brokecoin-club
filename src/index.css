@@ -62,4 +62,43 @@
   .torn-edge {
     clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 90%, 90% 85%, 85% 90%, 80% 85%, 75% 90%, 70% 85%, 65% 90%, 60% 85%, 55% 90%, 50% 85%, 45% 90%, 40% 85%, 35% 90%, 30% 85%, 25% 90%, 20% 85%, 15% 90%, 10% 85%, 5% 90%, 0 85%);
   }
+
+  /* ConnectWallet button styling to match header */
+  .connect-wallet-wrapper button {
+    all: unset !important;
+    font-family: 'Bebas Neue', sans-serif !important;
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+    letter-spacing: 0.1em !important;
+    color: white !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    transition: color 0.3s !important;
+  }
+
+  .connect-wallet-wrapper button svg {
+    color: white !important;
+    display: block !important;
+    flex-shrink: 0 !important;
+  }
+
+  .connect-wallet-wrapper button:hover {
+    color: #f2751f !important;
+  }
+
+  .connect-wallet-wrapper button:hover svg {
+    color: #f2751f !important;
+  }
+
+  @media (min-width: 1024px) {
+    .connect-wallet-wrapper button {
+      font-size: 1.125rem !important;
+      line-height: 1.75rem !important;
+    }
+  }
 }

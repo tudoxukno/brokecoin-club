@@ -1,18 +1,16 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-// import { ConnectWallet } from '@thirdweb-dev/react';
-import { Menu, X } from 'lucide-react';
+import { ConnectWallet, useAddress, useDisconnect } from '@thirdweb-dev/react';
+import { Menu, X, Wallet } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const address = useAddress();
+  const disconnect = useDisconnect();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleWalletClick = () => {
-    alert('Wallet connection temporarily disabled - site needs to be stable first');
   };
 
   // Function to handle navigation with smooth scrolling on home page
@@ -85,22 +83,46 @@ const Header = () => {
 
           {/* CTA - Spans 3 columns, positioned at end */}
           <div className="col-span-3 flex items-center justify-end">
-            <button 
-              onClick={handleWalletClick}
-              className="flex items-center space-x-2 font-bebas text-base lg:text-lg tracking-wider hover:text-broke-300 transition-colors"
-            >
-              <img 
-                src="/images/purchase-tag.png" 
-                alt="" 
-                className="w-4 h-4"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'block';
-                }}
-              />
-              <span className="hidden">🏷️</span>
-              <span>BUY BROKECOIN</span>
-            </button>
+            {address ? (
+              <div className="flex items-center space-x-3">
+                <span className="font-mono text-xs text-white">
+                  {address.slice(0, 6)}...{address.slice(-4)}
+                </span>
+                <button
+                  onClick={disconnect}
+                  className="font-bebas text-base lg:text-lg tracking-wider hover:text-broke-300 transition-colors"
+                >
+                  DISCONNECT
+                </button>
+              </div>
+            ) : (
+              <div className="relative">
+                <div className="connect-wallet-hidden absolute opacity-0 pointer-events-none">
+                  <ConnectWallet
+                    theme="dark"
+                    modalTitle="Connect Wallet to Buy BROKECOIN"
+                    modalSize="wide"
+                    welcomeScreen={{
+                      title: "Welcome to BROKECOIN",
+                      subtitle: "Connect your wallet to join the broke revolution"
+                    }}
+                  />
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const hiddenButton = document.querySelector('.connect-wallet-hidden button');
+                    if (hiddenButton) {
+                      hiddenButton.click();
+                    }
+                  }}
+                  className="flex items-center space-x-2 font-bebas text-base lg:text-lg tracking-wider hover:text-broke-300 transition-colors text-white"
+                >
+                  <Wallet className="w-4 h-4" />
+                  <span>CONNECT WALLET</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -174,25 +196,49 @@ const Header = () => {
             
             {/* Mobile CTA inside menu */}
             <div className="px-4 py-3 border-t border-gray-700 mt-2">
-              <button 
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  handleWalletClick();
-                }}
-                className="flex items-center space-x-2 font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors"
-              >
-                <img 
-                  src="/images/purchase-tag.png" 
-                  alt="" 
-                  className="w-4 h-4"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'block';
-                  }}
-                />
-                <span className="hidden">🏷️</span>
-                <span>BUY BROKECOIN</span>
-              </button>
+              {address ? (
+                <div className="flex flex-col space-y-2">
+                  <span className="font-mono text-xs text-white">
+                    {address.slice(0, 6)}...{address.slice(-4)}
+                  </span>
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      disconnect();
+                    }}
+                    className="font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors text-left"
+                  >
+                    DISCONNECT
+                  </button>
+                </div>
+              ) : (
+                <div className="relative" onClick={() => setIsMenuOpen(false)}>
+                  <div className="connect-wallet-hidden absolute opacity-0 pointer-events-none">
+                    <ConnectWallet
+                      theme="dark"
+                      modalTitle="Connect Wallet to Buy BROKECOIN"
+                      modalSize="wide"
+                      welcomeScreen={{
+                        title: "Welcome to BROKECOIN",
+                        subtitle: "Connect your wallet to join the broke revolution"
+                      }}
+                    />
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const hiddenButton = document.querySelector('.connect-wallet-hidden button');
+                      if (hiddenButton) {
+                        hiddenButton.click();
+                      }
+                    }}
+                    className="flex items-center space-x-2 font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors text-white w-full text-left"
+                  >
+                    <Wallet className="w-4 h-4" />
+                    <span>CONNECT WALLET</span>
+                  </button>
+                </div>
+              )}
             </div>
           </nav>
         </div>

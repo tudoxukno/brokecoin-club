@@ -98,22 +98,22 @@ const Brokenomics = () => {
               <div className="border-2 border-charcoal">
                 <div className="bg-charcoal text-white p-4">
                   <div className="grid grid-cols-3 gap-4 font-inter text-sm lg:text-base font-semibold">
-                    <div>Allocation</div>
-                    <div>% of Supply</div>
-                    <div>Real Talk</div>
+                    <div className="flex items-center justify-center">Allocation</div>
+                    <div className="flex items-center justify-center">% of Supply</div>
+                    <div className="flex items-center justify-center">Real Talk</div>
                   </div>
                 </div>
                 <div className="divide-y divide-charcoal">
                   {allocationData.map((item, index) => (
                     <div key={index} className="p-4">
                       <div className="grid grid-cols-3 gap-4">
-                        <div className="font-inter text-sm lg:text-base font-semibold text-charcoal">
+                        <div className="font-inter text-sm lg:text-base font-semibold text-charcoal flex items-center justify-center">
                           {item.allocation}
                         </div>
-                        <div className="font-inter text-sm lg:text-base font-semibold text-charcoal">
+                        <div className="font-inter text-sm lg:text-base font-semibold text-charcoal flex items-center justify-center">
                           {item.percentage} {item.amount}
                         </div>
-                        <div className="font-inter text-sm lg:text-base font-medium text-charcoal">
+                        <div className="font-inter text-sm lg:text-base font-medium text-charcoal flex items-center justify-center">
                           {item.realTalk}
                         </div>
                       </div>
@@ -174,13 +174,14 @@ const Brokenomics = () => {
               
               {/* Bottom section - CTA aligned with bottom of table */}
               <div className="mt-auto pt-4">
-                <motion.button
+                <motion.a
+                  href="#claim-section"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-charcoal text-white px-8 py-4 font-bebas text-xl lg:text-2xl tracking-wider hover:bg-broke-600 transition-all duration-300 rounded-lg"
+                  className="inline-block bg-charcoal text-white px-8 py-4 font-bebas text-xl lg:text-2xl tracking-wider hover:bg-broke-600 transition-all duration-300 rounded-lg text-center"
                 >
                   CLAIM YOUR SHARE
-                </motion.button>
+                </motion.a>
               </div>
             </div>
           </motion.div>
@@ -220,22 +221,22 @@ const Brokenomics = () => {
             <div className="border-2 border-charcoal">
               <div className="bg-charcoal text-white p-3">
                 <div className="grid grid-cols-3 gap-2 font-inter text-xs sm:text-sm font-semibold">
-                  <div>Allocation</div>
-                  <div>% of Supply</div>
-                  <div>Real Talk</div>
+                  <div className="flex items-center justify-center">Allocation</div>
+                  <div className="flex items-center justify-center">% of Supply</div>
+                  <div className="flex items-center justify-center">Real Talk</div>
                 </div>
               </div>
               <div className="divide-y divide-charcoal">
                 {allocationData.map((item, index) => (
                   <div key={index} className="p-3">
                     <div className="grid grid-cols-3 gap-2">
-                      <div className="font-inter text-xs sm:text-sm font-semibold text-charcoal">
+                      <div className="font-inter text-xs sm:text-sm font-semibold text-charcoal flex items-center justify-center">
                         {item.allocation}
                       </div>
-                      <div className="font-inter text-xs sm:text-sm font-semibold text-charcoal">
+                      <div className="font-inter text-xs sm:text-sm font-semibold text-charcoal flex items-center justify-center">
                         {item.percentage} {item.amount}
                       </div>
-                      <div className="font-inter text-xs sm:text-sm font-medium text-charcoal">
+                      <div className="font-inter text-xs sm:text-sm font-medium text-charcoal flex items-center justify-center">
                         {item.realTalk}
                       </div>
                     </div>
@@ -278,13 +279,14 @@ const Brokenomics = () => {
             </div>
             
             {/* CTA Button */}
-            <motion.button
+            <motion.a
+              href="#claim-section"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-charcoal text-white px-6 py-3 font-bebas text-lg sm:text-xl tracking-wider hover:bg-broke-600 transition-all duration-300 rounded-lg"
+              className="inline-block bg-charcoal text-white px-6 py-3 font-bebas text-lg sm:text-xl tracking-wider hover:bg-broke-600 transition-all duration-300 rounded-lg text-center"
             >
               CLAIM YOUR SHARE
-            </motion.button>
+            </motion.a>
           </motion.div>
         </div>
       </div>

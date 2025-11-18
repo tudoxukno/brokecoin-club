@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import { ThirdwebProvider } from '@thirdweb-dev/react';
-// import { Base } from '@thirdweb-dev/chains';
+import { ThirdwebProvider } from '@thirdweb-dev/react';
+import { Base } from '@thirdweb-dev/chains';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Brokenomics from './components/Brokenomics';
@@ -16,11 +16,15 @@ import FullDisclaimer from './components/FullDisclaimer';
 // import { config } from '../config.js';
 
 function App() {
+  // Get client ID from environment variable or use a default
+  // For production, set VITE_THIRDWEB_CLIENT_ID in your environment
+  const clientId = import.meta.env.VITE_THIRDWEB_CLIENT_ID || 'your-client-id-here';
+  
   return (
-    // <ThirdwebProvider
-    //   activeChain={Base}
-    //   clientId={config.thirdwebClientId}
-    // >
+    <ThirdwebProvider
+      activeChain={Base}
+      clientId={clientId}
+    >
       <Router>
         <div className="min-h-screen bg-paper paper-texture">
           <Header />
@@ -41,7 +45,7 @@ function App() {
           <Footer />
         </div>
       </Router>
-    // </ThirdwebProvider>
+    </ThirdwebProvider>
   );
 }
 

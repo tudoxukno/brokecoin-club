@@ -337,11 +337,18 @@ const Whitepaper = () => {
           {/* Desktop Layout - Overlapping */}
           <div className="hidden lg:flex justify-center relative">
             <div className="relative inline-block">
-              <img
-                src="/images/download-cta.png"
-                alt="DOWNLOAD THE FULL WHITEPAPER PDF"
-                className="w-full max-w-xl object-contain"
-              />
+              <a
+                href="/whitepaper.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <img
+                  src="/images/download-cta.png"
+                  alt="DOWNLOAD THE FULL WHITEPAPER PDF"
+                  className="w-full max-w-xl object-contain"
+                />
+              </a>
               <div className="absolute -top-32 -right-72">
                 <img
                   src="/images/telegram-sticker.png"
@@ -354,11 +361,18 @@ const Whitepaper = () => {
           
           {/* Mobile/Tablet Layout - Stacked vertically */}
           <div className="lg:hidden flex flex-col items-center justify-center space-y-4">
-            <img
-              src="/images/download-cta.png"
-              alt="DOWNLOAD THE FULL WHITEPAPER PDF"
-              className="max-w-md object-contain"
-            />
+            <a
+              href="/whitepaper.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <img
+                src="/images/download-cta.png"
+                alt="DOWNLOAD THE FULL WHITEPAPER PDF"
+                className="max-w-md object-contain"
+              />
+            </a>
             <img
               src="/images/telegram-sticker.png"
               alt="FREE ENTRY BROKECOIN BILLIONAIRES TELEGRAM GROUP"

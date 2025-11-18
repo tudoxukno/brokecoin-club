@@ -49,9 +49,7 @@ const Hero = () => {
             {/* CTA Button - Centered */}
             <div className="flex justify-center mb-12">
               <a
-                href="https://thirdweb.com/contracts/deploy/0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#claim-section"
                 className="bg-charcoal text-white px-8 py-4 font-bebas text-xl sm:text-2xl tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105 rounded-lg text-center"
               >
                 BUY BROKECOIN NOW
@@ -175,9 +173,7 @@ const Hero = () => {
             {/* CTA Button - Centered */}
             <div className="flex justify-center mb-12">
               <a
-                href="https://thirdweb.com/contracts/deploy/0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#claim-section"
                 className="bg-charcoal text-white px-10 py-5 font-bebas text-2xl tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105 rounded-lg text-center"
               >
                 BUY BROKECOIN NOW
@@ -273,9 +269,7 @@ const Hero = () => {
               </h1>
               <div>
                 <a
-                  href="https://thirdweb.com/contracts/deploy/0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#claim-section"
                   className="bg-charcoal text-white px-8 py-4 font-bebas text-xl lg:text-2xl tracking-wider hover:bg-broke-600 transition-all duration-300 transform hover:scale-105 rounded-lg inline-block"
                 >
                   BUY BROKECOIN NOW
