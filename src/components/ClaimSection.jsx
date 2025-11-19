@@ -484,6 +484,8 @@ const ClaimSection = () => {
         }
       } else if (error.message?.includes('invalid_union') || error.message?.includes('ZodError')) {
         errorMessage = 'Claim request was invalid. Please refresh the page, reconnect your wallet, and try again.';
+      } else if (error.message?.includes('IPFS gateway') || error.message?.includes('clientId') || error.message?.includes('timed out')) {
+        errorMessage = 'Service temporarily unavailable. Please refresh the page and try again.';
       } else if (error.message) {
         errorMessage = error.message;
       }
