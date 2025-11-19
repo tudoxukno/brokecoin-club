@@ -147,8 +147,16 @@ const ClaimSection = () => {
       }, 50);
       return () => clearTimeout(timer);
     } else {
-      // Wait 2 seconds before showing line 2
-      setTimeout(() => setShowLine2(true), 2000);
+      // On mobile: show button after line 1 (don't show line 2)
+      // On desktop: wait 2 seconds before showing line 2
+      const isMobile = window.innerWidth < 1024; // lg breakpoint
+      if (isMobile) {
+        // On mobile, show button after a short delay
+        setTimeout(() => setShowButton(true), 1000);
+      } else {
+        // On desktop, continue with line 2
+        setTimeout(() => setShowLine2(true), 2000);
+      }
     }
   }, [isInView, displayedText1]);
   
@@ -263,11 +271,9 @@ const ClaimSection = () => {
         // Try to read claim condition directly from contract
         // DropERC20 uses claimCondition() function
         const conditionId = await contract.call("getActiveClaimConditionId", []);
-        console.log("Fallback - Condition ID:", conditionId);
         
         if (conditionId !== undefined && conditionId !== null) {
           const condition = await contract.call("getClaimConditionById", [conditionId]);
-          console.log("Fallback - Raw condition data:", condition);
           
           if (condition) {
             // Handle both array and object formats
@@ -307,15 +313,6 @@ const ClaimSection = () => {
               // Likely in milliseconds, convert to seconds
               startTimeSeconds = startTimeSeconds / BigInt("1000");
             }
-            
-            console.log("Fallback - Parsed values:", {
-              maxSupply,
-              claimed,
-              available: available.toString(),
-              startTime: startTimeSeconds.toString(),
-              startTimeDate: new Date(Number(startTimeSeconds) * 1000).toLocaleString(),
-              quantityLimit
-            });
             
             setFallbackClaimCondition({
               startTime: startTimeSeconds.toString(),
@@ -360,13 +357,18 @@ const ClaimSection = () => {
     (claimerProofs && claimerProofs.length > 0)
   );
 
-  // Check localStorage for claim status
+  // Check localStorage for claim status and clear on disconnect
   useEffect(() => {
     if (address) {
       const stored = localStorage.getItem(`claimed_${address.toLowerCase()}`);
       if (stored === 'true') {
         setLocalHasClaimed(true);
       }
+    } else {
+      // Clear claim status when wallet disconnects
+      setClaimStatus(null);
+      setTxHash(null);
+      setLocalHasClaimed(false);
     }
   }, [address]);
   
@@ -414,8 +416,6 @@ const ClaimSection = () => {
     if (startTime > 4102444800) { // If larger than year 2100, it's likely in milliseconds
       startTime = Math.floor(startTime / 1000);
     }
-    
-    console.log("Claim check - now:", now, "startTime:", startTime, "startTimeDate:", new Date(startTime * 1000).toLocaleString());
     
     if (startTime > now && startTime > 0) {
       const startDate = new Date(startTime * 1000);
@@ -575,12 +575,12 @@ const ClaimSection = () => {
                         {displayedText1}
                       </p>
                       {showLine2 && (
-                        <p className="text-lg lg:text-xl xl:text-2xl">
+                        <p className="hidden lg:block text-lg lg:text-xl xl:text-2xl">
                           {displayedText2}
                         </p>
                       )}
                       {showLine3 && (
-                        <p className="text-lg lg:text-xl xl:text-2xl">
+                        <p className="hidden lg:block text-lg lg:text-xl xl:text-2xl">
                           {displayedText3}
                           {dotsCount > 0 && <span> .</span>}
                           {dotsCount > 1 && <span> .</span>}
@@ -595,7 +595,7 @@ const ClaimSection = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="flex flex-col items-center w-full mt-6"
+                        className="flex flex-col items-center w-full mt-6 mb-2"
                       >
                         <div className="relative mb-4">
                           {!address ? (
@@ -698,7 +698,7 @@ const ClaimSection = () => {
                                  <motion.div
                                    initial={{ opacity: 0, y: -10 }}
                                    animate={{ opacity: 1, y: 0 }}
-                                   className="mb-2 text-center"
+                                   className="mb-3 lg:mb-2 text-center"
                                    style={{
                                      color: claimStatus.type === 'success' ? '#0B8A04' : claimStatus.type === 'error' ? '#ff4444' : '#0B8A04',
                                      fontFamily: 'IBM Plex Mono',
