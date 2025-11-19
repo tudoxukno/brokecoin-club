@@ -523,11 +523,22 @@ const ClaimSection = () => {
     setTxHash(null);
 
     try {
+      // Verify contract is ready
+      if (!contract || !contract.erc20) {
+        throw new Error('Contract not initialized. Please refresh the page.');
+      }
+
       // Claim amount (25,000 tokens). Thirdweb handles decimals internally for DropERC20.
       const claimQuantity = '25000';
 
       // Call the claim function with quantity
-      const receipt = await contract.erc20.claimTo(address, claimQuantity);
+      // Use a timeout to prevent hanging
+      const claimPromise = contract.erc20.claimTo(address, claimQuantity);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Transaction timeout. Please try again.')), 60000)
+      );
+      
+      const receipt = await Promise.race([claimPromise, timeoutPromise]);
       
       // Get transaction hash from receipt
       const hash = receipt?.receipt?.transactionHash || receipt?.receipt?.hash || receipt?.transactionHash || receipt?.hash;
@@ -546,25 +557,38 @@ const ClaimSection = () => {
       
     } catch (error) {
       console.error('Claim error:', error);
+      console.error('Error details:', {
+        message: error.message,
+        code: error.code,
+        data: error.data,
+        stack: error.stack
+      });
       
       let errorMessage = 'Failed to claim tokens. Please try again.';
       
-      if (error.message?.includes('user rejected') || error.message?.includes('User denied')) {
+      if (error.message?.includes('user rejected') || error.message?.includes('User denied') || error.message?.includes('rejected')) {
         errorMessage = 'Transaction was cancelled';
-      } else if (error.message?.includes('insufficient funds') || error.message?.includes('gas')) {
-        errorMessage = 'Not enough ETH for gas fees';
-      } else if (error.message?.includes('already claimed')) {
+      } else if (error.message?.includes('insufficient funds') || error.message?.includes('gas') || error.message?.includes('0x')) {
+        errorMessage = 'Not enough ETH for gas fees. Please add ETH to your wallet.';
+      } else if (error.message?.includes('already claimed') || error.message?.includes('Already claimed')) {
         errorMessage = 'You have already claimed your tokens';
         if (address) {
           localStorage.setItem(`claimed_${address.toLowerCase()}`, 'true');
           setLocalHasClaimed(true);
         }
       } else if (error.message?.includes('invalid_union') || error.message?.includes('ZodError')) {
-        errorMessage = 'Claim request was invalid. Please refresh the page, reconnect your wallet, and try again.';
+        errorMessage = 'Invalid claim request. Please refresh and try again.';
+      } else if (error.message?.includes('execution reverted') || error.message?.includes('revert')) {
+        // Contract reverted - try to extract the reason
+        const revertReason = error.message.match(/revert\s+(.+)/i)?.[1] || error.reason || 'Transaction failed';
+        errorMessage = `Transaction failed: ${revertReason}`;
       } else if (error.message?.includes('IPFS gateway') || error.message?.includes('timed out') || error.message?.includes('Request timed out') || error.message?.includes('Failed to fetch')) {
-        errorMessage = 'Network error. Please refresh and try again.';
+        errorMessage = 'Network timeout. Please check your connection and try again.';
+      } else if (error.message?.includes('network') || error.message?.includes('Network')) {
+        errorMessage = 'Network issue. Please refresh and try again.';
       } else if (error.message) {
-        errorMessage = error.message;
+        // Show the actual error message if it's helpful
+        errorMessage = error.message.length > 100 ? 'Transaction failed. Please try again.' : error.message;
       }
       
       setClaimStatus({ 
@@ -691,6 +715,8 @@ const ClaimSection = () => {
                                   label: '> CONNECT',
                                   className: 'crt-connect-button'
                                 }}
+                                showThirdwebBranding={false}
+                                walletConnectV1ProjectId={undefined}
                               />
                             </div>
                           ) : (localHasClaimed || hasClaimedFromContract) ? (

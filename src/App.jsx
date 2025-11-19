@@ -44,6 +44,7 @@ function App() {
       name: "BROKECOIN",
       description: "The only coin backed by tears and bad decisions",
       url: typeof window !== 'undefined' ? window.location.origin : 'https://brokecoin.club',
+      logoUrl: typeof window !== 'undefined' ? `${window.location.origin}/images/brokecoin-logo.png` : 'https://brokecoin.club/images/brokecoin-logo.png',
       isDarkMode: true,
     },
   };

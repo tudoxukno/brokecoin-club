@@ -99,7 +99,7 @@ const Header = () => {
               <div className="connect-wallet-wrapper">
                 <ConnectWallet
                   theme="dark"
-                  modalTitle="Connect Wallet to Buy BROKECOIN"
+                  modalTitle="Connect Wallet to Claim BROKECOIN"
                   modalSize="wide"
                   welcomeScreen={{
                     title: "Welcome to BROKECOIN",
@@ -113,6 +113,8 @@ const Header = () => {
                       </span>
                     )
                   }}
+                  showThirdwebBranding={false}
+                  walletConnectV1ProjectId={undefined}
                 />
               </div>
             )}
