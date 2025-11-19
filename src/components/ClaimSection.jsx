@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ConnectWallet, useAddress, useContract, useChain, useSwitchChain, useActiveClaimCondition, useClaimConditions, useClaimerProofs } from '@thirdweb-dev/react';
+import { ConnectWallet, useAddress, useContract, useChain, useSwitchChain, useActiveClaimCondition, useClaimConditions, useClaimerProofs, useTokenBalance } from '@thirdweb-dev/react';
 import { Base } from '@thirdweb-dev/chains';
 import { AlertTriangle, CheckCircle2, ExternalLink, Loader2 } from 'lucide-react';
 
@@ -78,6 +78,8 @@ const ClaimSection = () => {
   const [claimStatus, setClaimStatus] = useState(null);
   const [txHash, setTxHash] = useState(null);
   const [localHasClaimed, setLocalHasClaimed] = useState(false);
+  const [hasClaimedFromContract, setHasClaimedFromContract] = useState(false);
+  const [isCheckingClaimStatus, setIsCheckingClaimStatus] = useState(false);
   
   // Terminal animation state
   const [isInView, setIsInView] = useState(false);
@@ -260,6 +262,9 @@ const ClaimSection = () => {
   const { data: claimConditions, isLoading: isLoadingConditions } = useClaimConditions(contract);
   const { data: claimerProofs, isLoading: isLoadingProofs } = useClaimerProofs(contract, address || undefined);
   
+  // Check user's token balance to see if they've already claimed
+  const { data: tokenBalance, isLoading: isLoadingBalance } = useTokenBalance(contract, address);
+  
   // Fallback: Try to read claim conditions directly from contract if hooks fail
   const [fallbackClaimCondition, setFallbackClaimCondition] = useState(null);
   
@@ -357,18 +362,83 @@ const ClaimSection = () => {
     (claimerProofs && claimerProofs.length > 0)
   );
 
+  // Check if wallet has already claimed by checking contract state
+  useEffect(() => {
+    const checkClaimStatus = async () => {
+      if (!address || !contract || !effectiveClaimCondition) {
+        setHasClaimedFromContract(false);
+        return;
+      }
+
+      setIsCheckingClaimStatus(true);
+      try {
+        // Check 1: Token balance - if they have 25,000+ tokens, they likely claimed
+        if (tokenBalance) {
+          const balance = BigInt(tokenBalance.value?.toString() || "0");
+          const claimAmount = BigInt("25000000000000000000000"); // 25,000 * 10^18
+          if (balance >= claimAmount) {
+            setHasClaimedFromContract(true);
+            setIsCheckingClaimStatus(false);
+            return;
+          }
+        }
+
+        // Check 2: Try to read from contract's claim tracking
+        // DropERC20 tracks claims per wallet via quantityLimitPerWallet
+        // If they try to claim again, the contract will reject it
+        // But we can check their current claimable amount
+        try {
+          const quantityLimit = effectiveClaimCondition.quantityLimitPerWallet 
+            ? BigInt(effectiveClaimCondition.quantityLimitPerWallet.toString())
+            : BigInt("0");
+          
+          // If quantityLimit is 0, there's no per-wallet limit (unlimited claims)
+          // If quantityLimit > 0, check if they've already claimed their limit
+          if (quantityLimit > BigInt("0")) {
+            // Try to get their claimed amount from the contract
+            // DropERC20 has a mapping to track claims per wallet
+            const claimedAmount = await contract.call("getSupplyClaimedByWallet", [address]);
+            if (claimedAmount) {
+              const claimed = BigInt(claimedAmount.toString());
+              if (claimed >= quantityLimit) {
+                setHasClaimedFromContract(true);
+                setIsCheckingClaimStatus(false);
+                return;
+              }
+            }
+          }
+        } catch (error) {
+          // Contract might not have this function, that's okay
+          // We'll rely on balance check and contract rejection
+        }
+
+        setHasClaimedFromContract(false);
+      } catch (error) {
+        console.error("Error checking claim status:", error);
+        setHasClaimedFromContract(false);
+      } finally {
+        setIsCheckingClaimStatus(false);
+      }
+    };
+
+    checkClaimStatus();
+  }, [address, contract, effectiveClaimCondition, tokenBalance]);
+
   // Check localStorage for claim status and clear on disconnect
   useEffect(() => {
     if (address) {
       const stored = localStorage.getItem(`claimed_${address.toLowerCase()}`);
       if (stored === 'true') {
         setLocalHasClaimed(true);
+      } else {
+        setLocalHasClaimed(false);
       }
     } else {
       // Clear claim status when wallet disconnects
       setClaimStatus(null);
       setTxHash(null);
       setLocalHasClaimed(false);
+      setHasClaimedFromContract(false);
     }
   }, [address]);
   
@@ -392,7 +462,8 @@ const ClaimSection = () => {
       }
     }
 
-    if (localHasClaimed) {
+    // Check if already claimed (localStorage or contract check)
+    if (localHasClaimed || hasClaimedFromContract) {
       setClaimStatus({ type: 'error', message: 'You have already claimed your BROKE tokens' });
       return;
     }
@@ -622,7 +693,7 @@ const ClaimSection = () => {
                                 }}
                               />
                             </div>
-                          ) : localHasClaimed ? (
+                          ) : (localHasClaimed || hasClaimedFromContract) ? (
                             <button
                               disabled
                               className="crt-claim-button"
@@ -647,7 +718,7 @@ const ClaimSection = () => {
                           ) : (
                             <button
                               onClick={handleClaim}
-                              disabled={isClaiming || (isLoadingClaimCondition && !fallbackClaimCondition) || isLoadingContract || !isCorrectNetwork || !contract || (effectiveClaimCondition && !canClaim)}
+                              disabled={isClaiming || (isLoadingClaimCondition && !fallbackClaimCondition) || isLoadingContract || !isCorrectNetwork || !contract || (effectiveClaimCondition && !canClaim) || isCheckingClaimStatus || hasClaimedFromContract}
                               className="crt-claim-button"
                               style={{
                                 fontFamily: 'IBM Plex Mono',
