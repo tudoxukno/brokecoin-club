@@ -127,7 +127,20 @@
     color: #0BFF04 !important;
   }
 
-  .connect-wallet-crt-wrapper button:active {
-    transform: scale(0.98) !important;
-  }
+.connect-wallet-crt-wrapper button:active {
+  transform: scale(0.98) !important;
+}
+
+/* Hide any vertical computer images in claim section */
+#claim-section img[src*="claim-details"] {
+  /* Ensure only the paper note is visible, crop out any vertical computer */
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Hide crt-frame-vertical if it exists anywhere */
+img[src*="crt-frame-vertical"],
+img[src*="CRT-frame-vertical"] {
+  display: none !important;
+}
 }

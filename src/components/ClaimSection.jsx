@@ -637,6 +637,10 @@ const ClaimSection = () => {
               src="/images/claim-details.png"
               alt="Claim details overview"
               className="w-full max-w-xl mx-auto h-auto object-contain mt-8 lg:mt-20"
+              style={{
+                objectPosition: 'center',
+                objectFit: 'contain'
+              }}
             />
           </motion.div>
 
