@@ -51,7 +51,7 @@ const Footer = () => {
                 <span>X</span>
               </a>
               <a 
-                href="https://t.me/brokecoinbillionaires" 
+                href="https://t.me/brokecoinbillionares" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 body-text text-sm text-white hover:text-broke-300 transition-colors"
