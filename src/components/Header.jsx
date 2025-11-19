@@ -96,31 +96,24 @@ const Header = () => {
                 </button>
               </div>
             ) : (
-              <div className="relative">
-                <div className="connect-wallet-hidden absolute opacity-0 pointer-events-none">
-                  <ConnectWallet
-                    theme="dark"
-                    modalTitle="Connect Wallet to Buy BROKECOIN"
-                    modalSize="wide"
-                    welcomeScreen={{
-                      title: "Welcome to BROKECOIN",
-                      subtitle: "Connect your wallet to join the broke revolution"
-                    }}
-                  />
-                </div>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const hiddenButton = document.querySelector('.connect-wallet-hidden button');
-                    if (hiddenButton) {
-                      hiddenButton.click();
-                    }
+              <div className="connect-wallet-wrapper">
+                <ConnectWallet
+                  theme="dark"
+                  modalTitle="Connect Wallet to Buy BROKECOIN"
+                  modalSize="wide"
+                  welcomeScreen={{
+                    title: "Welcome to BROKECOIN",
+                    subtitle: "Connect your wallet to join the broke revolution"
                   }}
-                  className="flex items-center space-x-2 font-bebas text-base lg:text-lg tracking-wider hover:text-broke-300 transition-colors text-white"
-                >
-                  <Wallet className="w-4 h-4" />
-                  <span>CONNECT WALLET</span>
-                </button>
+                  connectButton={{
+                    label: (
+                      <span className="flex items-center space-x-2">
+                        <Wallet className="w-4 h-4" />
+                        <span>CONNECT WALLET</span>
+                      </span>
+                    )
+                  }}
+                />
               </div>
             )}
           </div>
@@ -212,31 +205,24 @@ const Header = () => {
                   </button>
                 </div>
               ) : (
-                <div className="relative" onClick={() => setIsMenuOpen(false)}>
-                  <div className="connect-wallet-hidden absolute opacity-0 pointer-events-none">
-                    <ConnectWallet
-                      theme="dark"
-                      modalTitle="Connect Wallet to Buy BROKECOIN"
-                      modalSize="wide"
-                      welcomeScreen={{
-                        title: "Welcome to BROKECOIN",
-                        subtitle: "Connect your wallet to join the broke revolution"
-                      }}
-                    />
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const hiddenButton = document.querySelector('.connect-wallet-hidden button');
-                      if (hiddenButton) {
-                        hiddenButton.click();
-                      }
+                <div className="connect-wallet-wrapper" onClick={() => setIsMenuOpen(false)}>
+                  <ConnectWallet
+                    theme="dark"
+                    modalTitle="Connect Wallet to Buy BROKECOIN"
+                    modalSize="wide"
+                    welcomeScreen={{
+                      title: "Welcome to BROKECOIN",
+                      subtitle: "Connect your wallet to join the broke revolution"
                     }}
-                    className="flex items-center space-x-2 font-bebas text-lg tracking-wider hover:text-broke-300 transition-colors text-white w-full text-left"
-                  >
-                    <Wallet className="w-4 h-4" />
-                    <span>CONNECT WALLET</span>
-                  </button>
+                    connectButton={{
+                      label: (
+                        <span className="flex items-center space-x-2">
+                          <Wallet className="w-4 h-4" />
+                          <span>CONNECT WALLET</span>
+                        </span>
+                      )
+                    }}
+                  />
                 </div>
               )}
             </div>

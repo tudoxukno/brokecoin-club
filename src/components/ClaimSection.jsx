@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ConnectWallet, useAddress } from '@thirdweb-dev/react';
-// import { useContract, useContractRead, useContractWrite } from '@thirdweb-dev/react';
-// import { ethers } from 'ethers';
-import { AlertTriangle } from 'lucide-react';
+import { ConnectWallet, useAddress, useContract, useChain, useSwitchChain, useActiveClaimCondition, useClaimConditions, useClaimerProofs } from '@thirdweb-dev/react';
+import { Base } from '@thirdweb-dev/chains';
+import { AlertTriangle, CheckCircle2, ExternalLink, Loader2 } from 'lucide-react';
 
 const defiantMessages = [
   "They can't stop us",
@@ -75,9 +74,10 @@ const defiantMessages = [
 ];
 
 const ClaimSection = () => {
-  const [claimAmount, setClaimAmount] = useState(25000);
   const [isClaiming, setIsClaiming] = useState(false);
   const [claimStatus, setClaimStatus] = useState(null);
+  const [txHash, setTxHash] = useState(null);
+  const [localHasClaimed, setLocalHasClaimed] = useState(false);
   
   // Terminal animation state
   const [isInView, setIsInView] = useState(false);
@@ -238,22 +238,140 @@ const ClaimSection = () => {
     }
   }, [showButton, rotatingMessage, currentMessageIndex, isBackspacing]);
   
-  // Get wallet address
+  // Get wallet address and chain info
   const address = useAddress();
-  const contractAddress = "0x27b57Aa02BB1Ea243e5B44a41890246807Cda135"; // Replace with your actual contract address
+  const chain = useChain();
+  const switchChain = useSwitchChain();
+  const contractAddress = "0x27b57Aa02881Ea243e5B4Aa4189024EBB7Cda135";
   
-  // const { contract } = useContract(contractAddress);
+  // Initialize contract
+  const { contract, isLoading: isLoadingContract } = useContract(contractAddress);
   
-  // Read contract data - temporarily disabled
-  // const { data: claimableAmount } = useContractRead(contract, "claimableAmount", [address]);
-  // const { data: hasClaimed } = useContractRead(contract, "hasClaimed", [address]);
+  // Use Thirdweb DropERC20 hooks
+  const { data: activeClaimCondition, isLoading: isLoadingClaimCondition, error: claimConditionError } = useActiveClaimCondition(contract);
+  const { data: claimConditions, isLoading: isLoadingConditions } = useClaimConditions(contract);
+  const { data: claimerProofs, isLoading: isLoadingProofs } = useClaimerProofs(contract, address || undefined);
   
-  // Write contract functions - temporarily disabled
-  // const { mutateAsync: claim } = useContractWrite(contract, "claim");
+  // Fallback: Try to read claim conditions directly from contract if hooks fail
+  const [fallbackClaimCondition, setFallbackClaimCondition] = useState(null);
+  
+  useEffect(() => {
+    const fetchClaimConditionDirectly = async () => {
+      if (!contract || activeClaimCondition || isLoadingClaimCondition) return;
+      
+      try {
+        // Try to read claim condition directly from contract
+        // DropERC20 uses claimCondition() function
+        const conditionId = await contract.call("getActiveClaimConditionId", []);
+        console.log("Fallback - Condition ID:", conditionId);
+        
+        if (conditionId !== undefined && conditionId !== null) {
+          const condition = await contract.call("getClaimConditionById", [conditionId]);
+          console.log("Fallback - Raw condition data:", condition);
+          
+          if (condition) {
+            // Handle both array and object formats
+            // DropERC20 can return as array: [startTimestamp, maxClaimableSupply, supplyClaimed, quantityLimitPerWallet, merkleRoot, pricePerToken, currency]
+            // Or as object with named properties
+            let maxSupply, claimed, startTime, quantityLimit, merkleRoot, pricePerToken, currency;
+            
+            if (Array.isArray(condition)) {
+              // Array format: [startTimestamp, maxClaimableSupply, supplyClaimed, quantityLimitPerWallet, merkleRoot, pricePerToken, currency]
+              startTime = condition[0]?.toString() || "0";
+              maxSupply = condition[1]?.toString() || "0";
+              claimed = condition[2]?.toString() || "0";
+              quantityLimit = condition[3]?.toString() || "0";
+              merkleRoot = condition[4] || "";
+              pricePerToken = condition[5]?.toString() || "0";
+              currency = condition[6] || "";
+            } else {
+              // Object format
+              startTime = condition.startTimestamp?.toString() || condition.startTime?.toString() || "0";
+              maxSupply = condition.maxClaimableSupply?.toString() || "0";
+              claimed = condition.supplyClaimed?.toString() || "0";
+              quantityLimit = condition.quantityLimitPerWallet?.toString() || condition.maxQuantityPerWallet?.toString() || "0";
+              merkleRoot = condition.merkleRoot || "";
+              pricePerToken = condition.pricePerToken?.toString() || "0";
+              currency = condition.currency || "";
+            }
+            
+            // Calculate available supply
+            const maxSupplyBig = BigInt(maxSupply || "0");
+            const claimedBig = BigInt(claimed || "0");
+            const available = maxSupplyBig > claimedBig ? maxSupplyBig - claimedBig : BigInt("0");
+            
+            // Ensure startTime is in seconds (Unix timestamp)
+            // If it's too large (> year 2100), it might be in milliseconds, so divide by 1000
+            let startTimeSeconds = BigInt(startTime || "0");
+            if (startTimeSeconds > BigInt("4102444800")) { // Year 2100 in seconds
+              // Likely in milliseconds, convert to seconds
+              startTimeSeconds = startTimeSeconds / BigInt("1000");
+            }
+            
+            console.log("Fallback - Parsed values:", {
+              maxSupply,
+              claimed,
+              available: available.toString(),
+              startTime: startTimeSeconds.toString(),
+              startTimeDate: new Date(Number(startTimeSeconds) * 1000).toLocaleString(),
+              quantityLimit
+            });
+            
+            setFallbackClaimCondition({
+              startTime: startTimeSeconds.toString(),
+              maxClaimableSupply: maxSupply,
+              supplyClaimed: claimed,
+              quantityLimitPerWallet: quantityLimit,
+              merkleRoot: merkleRoot,
+              pricePerToken: pricePerToken,
+              currency: currency,
+              availableSupply: available.toString(),
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Could not fetch claim condition directly:", error);
+      }
+    };
+    
+    // Only try fallback if hooks failed and we've waited a bit
+    if (claimConditionError || (!activeClaimCondition && !isLoadingClaimCondition)) {
+      const timer = setTimeout(fetchClaimConditionDirectly, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [contract, activeClaimCondition, isLoadingClaimCondition, claimConditionError]);
+  
+  // Use fallback if main hook failed
+  const effectiveClaimCondition = activeClaimCondition || fallbackClaimCondition;
+  
+  // Calculate claimable amount
+  const claimableAmount = effectiveClaimCondition?.availableSupply || null;
+  
+  // Check if user can claim
+  // For public claims (no merkleRoot), anyone can claim
+  // For allowlist claims, user needs proofs
+  const merkleRoot = effectiveClaimCondition?.merkleRoot;
+  const isPublicClaim = !merkleRoot || 
+    merkleRoot === "" || 
+    merkleRoot === "0x0000000000000000000000000000000000000000000000000000000000000000";
+  
+  const canClaim = effectiveClaimCondition && (
+    isPublicClaim || 
+    (claimerProofs && claimerProofs.length > 0)
+  );
 
-  // Mock data for now
-  const claimableAmount = "25000000000000000000000"; // 25,000 tokens in wei
-  const hasClaimed = false;
+  // Check localStorage for claim status
+  useEffect(() => {
+    if (address) {
+      const stored = localStorage.getItem(`claimed_${address.toLowerCase()}`);
+      if (stored === 'true') {
+        setLocalHasClaimed(true);
+      }
+    }
+  }, [address]);
+  
+  // Check if on correct network
+  const isCorrectNetwork = chain?.chainId === Base.chainId;
 
   const handleClaim = async () => {
     if (!address) {
@@ -261,39 +379,127 @@ const ClaimSection = () => {
       return;
     }
 
-    if (hasClaimed) {
+    if (!isCorrectNetwork) {
+      try {
+        await switchChain(Base.chainId);
+        setClaimStatus({ type: 'info', message: 'Please switch to Base network and try again' });
+        return;
+      } catch (error) {
+        setClaimStatus({ type: 'error', message: 'Please switch to Base network in your wallet' });
+        return;
+      }
+    }
+
+    if (localHasClaimed) {
       setClaimStatus({ type: 'error', message: 'You have already claimed your BROKE tokens' });
+      return;
+    }
+
+    if (isLoadingClaimCondition || isLoadingConditions) {
+      setClaimStatus({ type: 'info', message: 'Checking claim status...' });
+      return;
+    }
+
+    if (!effectiveClaimCondition) {
+      setClaimStatus({ type: 'error', message: 'Claim conditions not set up yet. Please wait a moment and try again.' });
+      return;
+    }
+
+    // Check if claim phase has started
+    const now = Math.floor(Date.now() / 1000); // Current time in seconds
+    const startTimeRaw = effectiveClaimCondition.startTime ? Number(effectiveClaimCondition.startTime) : 0;
+    
+    // Ensure startTime is in seconds (not milliseconds)
+    let startTime = startTimeRaw;
+    if (startTime > 4102444800) { // If larger than year 2100, it's likely in milliseconds
+      startTime = Math.floor(startTime / 1000);
+    }
+    
+    console.log("Claim check - now:", now, "startTime:", startTime, "startTimeDate:", new Date(startTime * 1000).toLocaleString());
+    
+    if (startTime > now && startTime > 0) {
+      const startDate = new Date(startTime * 1000);
+      setClaimStatus({ 
+        type: 'error', 
+        message: `Claim phase starts on ${startDate.toLocaleDateString()} at ${startDate.toLocaleTimeString()}` 
+      });
+      return;
+    }
+
+    if (!canClaim) {
+      setClaimStatus({ type: 'error', message: 'Your wallet is not eligible to claim' });
+      return;
+    }
+
+    if (!effectiveClaimCondition.availableSupply || effectiveClaimCondition.availableSupply.toString() === '0') {
+      setClaimStatus({ type: 'error', message: 'No tokens available to claim' });
+      return;
+    }
+
+    if (!contract?.erc20) {
+      setClaimStatus({ type: 'error', message: 'Contract not ready. Please refresh and try again.' });
       return;
     }
 
     setIsClaiming(true);
     setClaimStatus(null);
+    setTxHash(null);
 
     try {
-      // Temporarily disabled actual claim
-      // await claim({ args: [claimAmount] });
+      // Claim amount (25,000 tokens). Thirdweb handles decimals internally for DropERC20.
+      const claimQuantity = '25000';
+
+      // Call the claim function with quantity
+      const receipt = await contract.erc20.claimTo(address, claimQuantity);
       
-      // Mock successful claim
-      setTimeout(() => {
-        setClaimStatus({ type: 'success', message: 'Successfully claimed 25,000 BROKE tokens!' });
-        setIsClaiming(false);
-      }, 2000);
+      // Get transaction hash from receipt
+      const hash = receipt?.receipt?.transactionHash || receipt?.receipt?.hash || receipt?.transactionHash || receipt?.hash;
+      setTxHash(hash);
+      
+      // Mark as claimed in localStorage
+      if (address) {
+        localStorage.setItem(`claimed_${address.toLowerCase()}`, 'true');
+        setLocalHasClaimed(true);
+      }
+      
+      setClaimStatus({ 
+        type: 'success', 
+        message: 'Successfully claimed 25,000 BROKE tokens!' 
+      });
       
     } catch (error) {
       console.error('Claim error:', error);
+      
+      let errorMessage = 'Failed to claim tokens. Please try again.';
+      
+      if (error.message?.includes('user rejected') || error.message?.includes('User denied')) {
+        errorMessage = 'Transaction was cancelled';
+      } else if (error.message?.includes('insufficient funds') || error.message?.includes('gas')) {
+        errorMessage = 'Not enough ETH for gas fees';
+      } else if (error.message?.includes('already claimed')) {
+        errorMessage = 'You have already claimed your tokens';
+        if (address) {
+          localStorage.setItem(`claimed_${address.toLowerCase()}`, 'true');
+          setLocalHasClaimed(true);
+        }
+      } else if (error.message?.includes('invalid_union') || error.message?.includes('ZodError')) {
+        errorMessage = 'Claim request was invalid. Please refresh the page, reconnect your wallet, and try again.';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       setClaimStatus({ 
         type: 'error', 
-        message: error.message || 'Failed to claim tokens. Please try again.' 
+        message: errorMessage 
       });
+    } finally {
       setIsClaiming(false);
     }
   };
 
-  const formatNumber = (num) => {
-    if (!num) return '0';
-    // Temporarily disabled ethers
-    // return ethers.utils.formatUnits(num, 18);
-    return '25,000'; // Mock value
+  const getExplorerUrl = (hash) => {
+    if (!hash) return null;
+    return `https://basescan.org/tx/${hash}`;
   };
 
   return (
@@ -350,15 +556,17 @@ const ClaimSection = () => {
                 <div 
                   className="absolute"
                   style={{
-                    top: '20%',
-                    left: '12%',
-                    right: '12%',
-                    bottom: '25%',
+                    top: '16%',
+                    left: '11%',
+                    right: '11%',
+                    bottom: '14%',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'flex-start',
                     alignItems: 'flex-start',
-                    paddingTop: '2%'
+                    paddingTop: '2%',
+                    paddingBottom: '2%',
+                    overflow: 'hidden'
                   }}
                 >
                   <div className="w-full">
@@ -387,67 +595,145 @@ const ClaimSection = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="flex flex-col items-center w-full mt-12"
+                        className="flex flex-col items-center w-full mt-6"
                       >
-                        <div className="relative mb-6">
-                          <button
-                            onClick={() => {
-                              const hiddenButton = document.querySelector('.connect-wallet-hidden-claim button');
-                              if (hiddenButton) {
-                                hiddenButton.click();
-                              }
-                            }}
-                            className="crt-button"
-                            style={{
-                              fontFamily: 'IBM Plex Mono',
-                              fontWeight: 500,
-                              color: '#0B8A04',
-                              backgroundColor: 'transparent',
-                              border: '2px solid #0B8A04',
-                              padding: '12px 32px',
-                              fontSize: '1.25rem',
-                              letterSpacing: '0.1em',
-                              cursor: 'pointer',
-                              position: 'relative',
-                              textTransform: 'uppercase',
-                              boxShadow: '0 0 10px rgba(11, 138, 4, 0.3), inset 0 0 10px rgba(11, 138, 4, 0.1)',
-                              transition: 'all 0.3s ease',
-                            }}
-                            onMouseEnter={(e) => {
-                              e.target.style.boxShadow = '0 0 20px rgba(11, 138, 4, 0.6), inset 0 0 15px rgba(11, 138, 4, 0.2)';
-                              e.target.style.borderColor = '#0BFF04';
-                              e.target.style.color = '#0BFF04';
-                            }}
-                            onMouseLeave={(e) => {
-                              e.target.style.boxShadow = '0 0 10px rgba(11, 138, 4, 0.3), inset 0 0 10px rgba(11, 138, 4, 0.1)';
-                              e.target.style.borderColor = '#0B8A04';
-                              e.target.style.color = '#0B8A04';
-                            }}
-                          >
-                            &gt; CONNECT
-                          </button>
-                          <div className="connect-wallet-hidden-claim absolute opacity-0 pointer-events-none">
-                            <ConnectWallet
-                              theme="dark"
-                              modalTitle="Connect Wallet to Claim BROKE"
-                              modalSize="wide"
-                              welcomeScreen={{
-                                title: "Welcome to BROKECOIN",
-                                subtitle: "Connect your wallet to claim your 25,000 BROKE tokens"
+                        <div className="relative mb-4">
+                          {!address ? (
+                            <div className="connect-wallet-crt-wrapper">
+                              <ConnectWallet
+                                theme="dark"
+                                modalTitle="Connect Wallet to Claim BROKE"
+                                modalSize="wide"
+                                welcomeScreen={{
+                                  title: "Welcome to BROKECOIN",
+                                  subtitle: "Connect your wallet to claim your 25,000 BROKE tokens"
+                                }}
+                                connectButton={{
+                                  label: '> CONNECT',
+                                  className: 'crt-connect-button'
+                                }}
+                              />
+                            </div>
+                          ) : localHasClaimed ? (
+                            <button
+                              disabled
+                              className="crt-claim-button"
+                              style={{
+                                fontFamily: 'IBM Plex Mono',
+                                fontWeight: 500,
+                                color: '#0B8A04',
+                                backgroundColor: 'transparent',
+                                border: '2px solid #0B8A04',
+                                padding: '10px 24px',
+                                fontSize: '1.1rem',
+                                letterSpacing: '0.1em',
+                                cursor: 'not-allowed',
+                                opacity: 0.6,
+                                position: 'relative',
+                                textTransform: 'uppercase',
+                                boxShadow: '0 0 10px rgba(11, 138, 4, 0.2), inset 0 0 10px rgba(11, 138, 4, 0.05)',
                               }}
-                            />
-                          </div>
+                            >
+                              &gt; CLAIMED
+                            </button>
+                          ) : (
+                            <button
+                              onClick={handleClaim}
+                              disabled={isClaiming || (isLoadingClaimCondition && !fallbackClaimCondition) || isLoadingContract || !isCorrectNetwork || !contract || (effectiveClaimCondition && !canClaim)}
+                              className="crt-claim-button"
+                              style={{
+                                fontFamily: 'IBM Plex Mono',
+                                fontWeight: 500,
+                                color: '#0B8A04',
+                                backgroundColor: 'transparent',
+                                border: '2px solid #0B8A04',
+                                padding: '10px 24px',
+                                fontSize: '1.1rem',
+                                letterSpacing: '0.1em',
+                                cursor: (isClaiming || (isLoadingClaimCondition && !fallbackClaimCondition) || isLoadingContract || !isCorrectNetwork || !contract || (effectiveClaimCondition && !canClaim)) ? 'not-allowed' : 'pointer',
+                                position: 'relative',
+                                textTransform: 'uppercase',
+                                boxShadow: '0 0 10px rgba(11, 138, 4, 0.3), inset 0 0 10px rgba(11, 138, 4, 0.1)',
+                                transition: 'all 0.3s ease',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                              }}
+                              onMouseEnter={(e) => {
+                                if (!isClaiming && (!isLoadingClaimCondition || fallbackClaimCondition) && !isLoadingContract && isCorrectNetwork && contract && (!effectiveClaimCondition || canClaim)) {
+                                  e.target.style.boxShadow = '0 0 20px rgba(11, 138, 4, 0.6), inset 0 0 15px rgba(11, 138, 4, 0.2)';
+                                  e.target.style.borderColor = '#0BFF04';
+                                  e.target.style.color = '#0BFF04';
+                                }
+                              }}
+                              onMouseLeave={(e) => {
+                                if (!isClaiming && (!isLoadingClaimCondition || fallbackClaimCondition) && !isLoadingContract && isCorrectNetwork && contract && (!effectiveClaimCondition || canClaim)) {
+                                  e.target.style.boxShadow = '0 0 10px rgba(11, 138, 4, 0.3), inset 0 0 10px rgba(11, 138, 4, 0.1)';
+                                  e.target.style.borderColor = '#0B8A04';
+                                  e.target.style.color = '#0B8A04';
+                                }
+                              }}
+                            >
+                              {isClaiming ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                  <span>&gt; CLAIMING...</span>
+                                </>
+                              ) : (isLoadingContract || (isLoadingClaimCondition && !fallbackClaimCondition)) ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                  <span>&gt; LOADING...</span>
+                                </>
+                              ) : !isCorrectNetwork ? (
+                                <span>&gt; SWITCH TO BASE</span>
+                              ) : (
+                                <span>&gt; CLAIM</span>
+                              )}
+                            </button>
+                          )}
                         </div>
+                        
+                               {/* Status Messages */}
+                               {claimStatus && (
+                                 <motion.div
+                                   initial={{ opacity: 0, y: -10 }}
+                                   animate={{ opacity: 1, y: 0 }}
+                                   className="mb-2 text-center"
+                                   style={{
+                                     color: claimStatus.type === 'success' ? '#0B8A04' : claimStatus.type === 'error' ? '#ff4444' : '#0B8A04',
+                                     fontFamily: 'IBM Plex Mono',
+                                     fontWeight: 500,
+                                     fontSize: '0.85rem',
+                                   }}
+                                 >
+                                   {claimStatus.type === 'success' && <CheckCircle2 className="inline w-4 h-4 mr-1" />}
+                                   {claimStatus.type === 'error' && <AlertTriangle className="inline w-4 h-4 mr-1" />}
+                                   {claimStatus.message}
+                                   {txHash && claimStatus.type === 'success' && (
+                                     <a
+                                       href={getExplorerUrl(txHash)}
+                                       target="_blank"
+                                       rel="noopener noreferrer"
+                                       className="ml-2 inline-flex items-center hover:underline"
+                                       style={{ color: '#0BFF04' }}
+                                     >
+                                       View on Basescan
+                                       <ExternalLink className="w-3 h-3 ml-1" />
+                                     </a>
+                                   )}
+                                 </motion.div>
+                               )}
                         
                         {/* Rotating defiant message */}
                         <div 
-                          className="text-center relative inline-block"
+                          className="text-center relative inline-block w-full"
                           style={{ 
                             color: '#0B8A04', 
                             fontFamily: 'IBM Plex Mono', 
                             fontWeight: 500,
                             fontSize: '1rem',
-                            minHeight: '1.5rem'
+                            minHeight: '1.5rem',
+                            marginTop: '0.75rem'
                           }}
                         >
                           <span>{rotatingMessage}</span>
