@@ -12,7 +12,7 @@ Vercel should auto-detect Vite, but verify:
 - **Framework Preset:** Vite
 - **Build Command:** `npm run build`
 - **Output Directory:** `dist`
-- **Install Command:** `npm install`
+- **Install Command:** `rm -rf node_modules package-lock.json && npm install`
 
 ### 3. Set Environment Variable (CRITICAL)
 1. In your Vercel project settings, go to **Settings** → **Environment Variables**
