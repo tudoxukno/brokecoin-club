@@ -8,7 +8,6 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "postinstall": "npm install --no-save @rollup/rollup-linux-x64-gnu --include=optional || true"
   },
   "dependencies": {
     "@tanstack/react-query": "4.40.1",
@@ -23,6 +22,7 @@
     "react-router-dom": "^6.22.2"
   },
   "devDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.27.4",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
