@@ -37,12 +37,53 @@ Vercel should auto-detect Vite, but verify:
 - [ ] Verify CRT animations work correctly
 - [ ] Check that success messages clear on disconnect
 
-## Custom Domain (Optional)
+## Custom Domain Setup (Namecheap)
 
-1. Go to **Settings** → **Domains**
-2. Add your domain (e.g., `brokecoin.club`)
-3. Follow DNS configuration instructions
-4. SSL certificate will be auto-generated
+### Step 1: Add Domain in Vercel
+1. Go to your Vercel project dashboard
+2. Click **Settings** → **Domains**
+3. Enter your domain (e.g., `brokecoin.club` or `www.brokecoin.club`)
+4. Click **Add**
+5. Vercel will show you DNS records to configure
+
+### Step 2: Configure DNS in Namecheap
+1. Log into your Namecheap account
+2. Go to **Domain List** → Click **Manage** next to your domain
+3. Go to **Advanced DNS** tab
+4. You'll need to add these records (Vercel will show you the exact values):
+
+   **For root domain (brokecoin.club):**
+   - **Type:** A Record
+   - **Host:** @
+   - **Value:** `76.76.21.21` (Vercel's IP - check Vercel dashboard for current IP)
+   - **TTL:** Automatic
+
+   **OR use CNAME (recommended):**
+   - **Type:** CNAME Record
+   - **Host:** @
+   - **Value:** `cname.vercel-dns.com.` (Vercel will provide exact value)
+   - **TTL:** Automatic
+
+   **For www subdomain:**
+   - **Type:** CNAME Record
+   - **Host:** www
+   - **Value:** `cname.vercel-dns.com.` (Vercel will provide exact value)
+   - **TTL:** Automatic
+
+### Step 3: Wait for DNS Propagation
+- DNS changes can take 24-48 hours to propagate
+- Usually works within a few minutes to a few hours
+- Vercel will show "Valid Configuration" when it's ready
+
+### Step 4: SSL Certificate
+- Vercel automatically generates SSL certificates via Let's Encrypt
+- HTTPS will be enabled automatically once DNS is configured
+- No additional setup needed
+
+### Troubleshooting
+- If domain doesn't work after 24 hours, double-check DNS records match exactly what Vercel shows
+- Make sure you removed any conflicting A/CNAME records
+- Vercel dashboard will show any configuration errors
 
 ## Troubleshooting
 
