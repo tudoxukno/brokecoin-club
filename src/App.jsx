@@ -30,14 +30,19 @@ const queryClient = new QueryClient({
 
 function App() {
   // Get client ID from environment variable
-  // If no client ID is set, Thirdweb will work but analytics will be disabled
-  const clientId = import.meta.env.VITE_THIRDWEB_CLIENT_ID;
+  // CRITICAL: This must be set in Vercel environment variables for production
+  const clientId = import.meta.env.VITE_THIRDWEB_CLIENT_ID || '6504e03070ddb2dfa12948cfdad6f0e2';
   
-  // Only pass clientId if it exists to avoid 401 errors
+  // Log if client ID is missing (for debugging)
+  if (!import.meta.env.VITE_THIRDWEB_CLIENT_ID && import.meta.env.MODE === 'production') {
+    console.warn('⚠️ VITE_THIRDWEB_CLIENT_ID not found in environment variables. Using fallback.');
+  }
+  
+  // Always pass clientId - it's required for IPFS gateway
   const providerProps = {
     activeChain: Base,
     queryClient: queryClient, // CRITICAL: Pass our QueryClient to ThirdwebProvider
-    ...(clientId && { clientId }),
+    clientId: clientId, // ALWAYS pass clientId - required for reliable IPFS gateway
     // Disable auto-connect to allow users to switch accounts
     autoConnect: false,
     dAppMeta: {
