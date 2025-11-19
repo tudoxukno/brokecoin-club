@@ -38,9 +38,8 @@ function App() {
     activeChain: Base,
     queryClient: queryClient, // CRITICAL: Pass our QueryClient to ThirdwebProvider
     ...(clientId && { clientId }),
-    autoConnect: {
-      timeout: 10000,
-    },
+    // Disable auto-connect to allow users to switch accounts
+    autoConnect: false,
     dAppMeta: {
       name: "BROKECOIN",
       description: "The only coin backed by tears and bad decisions",
