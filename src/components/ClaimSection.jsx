@@ -404,16 +404,12 @@ const ClaimSection = () => {
 
     if (!effectiveClaimCondition) {
       // Check if it's a loading issue or a configuration issue
-      if (claimConditionError) {
-        setClaimStatus({ 
-          type: 'error', 
-          message: 'Unable to load claim conditions. Please ensure VITE_THIRDWEB_CLIENT_ID is set in your deployment environment.' 
-        });
-      } else if (isLoadingClaimCondition || isLoadingContract) {
+      if (isLoadingClaimCondition || isLoadingContract) {
         setClaimStatus({ type: 'info', message: 'Loading claim conditions...' });
-      } else {
-        setClaimStatus({ type: 'error', message: 'Claim conditions not set up yet. Please wait a moment and try again.' });
+        return;
       }
+      // Only show error if we're not loading and have no condition
+      setClaimStatus({ type: 'error', message: 'Claim conditions not available. Please refresh and try again.' });
       return;
     }
 
@@ -494,8 +490,8 @@ const ClaimSection = () => {
         }
       } else if (error.message?.includes('invalid_union') || error.message?.includes('ZodError')) {
         errorMessage = 'Claim request was invalid. Please refresh the page, reconnect your wallet, and try again.';
-      } else if (error.message?.includes('IPFS gateway') || error.message?.includes('clientId') || error.message?.includes('timed out') || error.message?.includes('Request timed out') || error.message?.includes('Failed to fetch')) {
-        errorMessage = 'Service temporarily unavailable. Please ensure your Thirdweb Client ID is configured correctly in your deployment environment.';
+      } else if (error.message?.includes('IPFS gateway') || error.message?.includes('timed out') || error.message?.includes('Request timed out') || error.message?.includes('Failed to fetch')) {
+        errorMessage = 'Network error. Please refresh and try again.';
       } else if (error.message) {
         errorMessage = error.message;
       }
