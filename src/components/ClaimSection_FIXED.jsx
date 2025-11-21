@@ -75,23 +75,6 @@ const defiantMessages = [
 ];
 
 const ClaimSection = () => {
-  // Get wallet address and chain info FIRST
-  const address = useAddress();
-  const chain = useChain();
-  const switchChain = useSwitchChain();
-  const contractAddress = "0x27b57Aa02881Ea243e5B4Aa4189024EBB7Cda135";
-  
-  // Initialize contract
-  const { contract, isLoading: isLoadingContract } = useContract(contractAddress);
-  
-  // Use Thirdweb DropERC20 hooks
-  const { data: activeClaimCondition, isLoading: isLoadingClaimCondition, error: claimConditionError } = useActiveClaimCondition(contract);
-  const { data: claimConditions, isLoading: isLoadingConditions } = useClaimConditions(contract);
-  const { data: claimerProofs, isLoading: isLoadingProofs } = useClaimerProofs(contract, address || undefined);
-  
-  // Check user's BROKE balance to see if they've already claimed
-  const { data: tokenBalance, isLoading: isLoadingTokenBalance } = useTokenBalance(contract, address);
-
   const [isClaiming, setIsClaiming] = useState(false);
   const [claimStatus, setClaimStatus] = useState(null);
   const [txHash, setTxHash] = useState(null);
@@ -110,14 +93,6 @@ const ClaimSection = () => {
   const [showButton, setShowButton] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
   
-  // Success animation state (for after social gate unlocks)
-  const [displayedSuccess1, setDisplayedSuccess1] = useState('');
-  const [displayedSuccess2, setDisplayedSuccess2] = useState('');
-  const [displayedSuccess3, setDisplayedSuccess3] = useState('');
-  const [showSuccessLine2, setShowSuccessLine2] = useState(false);
-  const [showSuccessLine3, setShowSuccessLine3] = useState(false);
-  const [successAnimationComplete, setSuccessAnimationComplete] = useState(false);
-  
   // Rotating message state
   const [rotatingMessage, setRotatingMessage] = useState('');
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
@@ -130,11 +105,6 @@ const ClaimSection = () => {
   const line2 = '> wow this machine is old';
   const line3 = '> loading tokens';
   const securityProtocolText = '> SECURITY PROTOCOL ACTIVATED';
-  
-  // Success sequence text
-  const successLine1 = '> CREDENTIALS VERIFIED';
-  const successLine2 = '> ACCESS GRANTED';
-  const successLine3 = '> CLAIM UNLOCKED';
 
   // Reset animation when section comes into view
   useEffect(() => {
@@ -279,60 +249,22 @@ const ClaimSection = () => {
     }
   }, [showButton, rotatingMessage, currentMessageIndex, isBackspacing]);
   
-  // Success animation effects (when social gate unlocks)
-  useEffect(() => {
-    if (!socialGateUnlocked || !address) return;
-    
-    // Reset success animation when gate unlocks
-    setDisplayedSuccess1('');
-    setDisplayedSuccess2('');
-    setDisplayedSuccess3('');
-    setShowSuccessLine2(false);
-    setShowSuccessLine3(false);
-    setSuccessAnimationComplete(false);
-  }, [socialGateUnlocked, address]);
+  // Get wallet address and chain info
+  const address = useAddress();
+  const chain = useChain();
+  const switchChain = useSwitchChain();
+  const contractAddress = "0x27b57Aa02881Ea243e5B4Aa4189024EBB7Cda135";
   
-  // Success line 1 animation
-  useEffect(() => {
-    if (!socialGateUnlocked || !address) return;
-    
-    if (displayedSuccess1.length < successLine1.length) {
-      const timer = setTimeout(() => {
-        setDisplayedSuccess1(successLine1.slice(0, displayedSuccess1.length + 1));
-      }, 50);
-      return () => clearTimeout(timer);
-    } else {
-      setTimeout(() => setShowSuccessLine2(true), 1000);
-    }
-  }, [socialGateUnlocked, address, displayedSuccess1]);
+  // Initialize contract
+  const { contract, isLoading: isLoadingContract } = useContract(contractAddress);
   
-  // Success line 2 animation
-  useEffect(() => {
-    if (!showSuccessLine2) return;
-    
-    if (displayedSuccess2.length < successLine2.length) {
-      const timer = setTimeout(() => {
-        setDisplayedSuccess2(successLine2.slice(0, displayedSuccess2.length + 1));
-      }, 50);
-      return () => clearTimeout(timer);
-    } else {
-      setTimeout(() => setShowSuccessLine3(true), 1000);
-    }
-  }, [showSuccessLine2, displayedSuccess2]);
+  // Use Thirdweb DropERC20 hooks
+  const { data: activeClaimCondition, isLoading: isLoadingClaimCondition, error: claimConditionError } = useActiveClaimCondition(contract);
+  const { data: claimConditions, isLoading: isLoadingConditions } = useClaimConditions(contract);
+  const { data: claimerProofs, isLoading: isLoadingProofs } = useClaimerProofs(contract, address || undefined);
   
-  // Success line 3 animation
-  useEffect(() => {
-    if (!showSuccessLine3) return;
-    
-    if (displayedSuccess3.length < successLine3.length) {
-      const timer = setTimeout(() => {
-        setDisplayedSuccess3(successLine3.slice(0, displayedSuccess3.length + 1));
-      }, 50);
-      return () => clearTimeout(timer);
-    } else {
-      setTimeout(() => setSuccessAnimationComplete(true), 1000);
-    }
-  }, [showSuccessLine3, displayedSuccess3]);
+  // Check user's BROKE balance to see if they've already claimed
+  const { data: tokenBalance, isLoading: isLoadingTokenBalance } = useTokenBalance(contract, address);
   
   // Fallback: Try to read claim conditions directly from contract if hooks fail
   const [fallbackClaimCondition, setFallbackClaimCondition] = useState(null);
@@ -430,40 +362,16 @@ const ClaimSection = () => {
         setHasClaimedFromContract(false);
       }
     } else {
-      // Clear ALL states when wallet disconnects - RESET EVERYTHING
       setClaimStatus(null);
       setTxHash(null);
       setLocalHasClaimed(false);
       setHasClaimedFromContract(false);
       setSocialGateUnlocked(false);
-      // Also clear the localStorage gate unlock
-      localStorage.removeItem('brokeGateUnlocked');
-      
-      // Reset success animation states
-      setDisplayedSuccess1('');
-      setDisplayedSuccess2('');
-      setDisplayedSuccess3('');
-      setShowSuccessLine2(false);
-      setShowSuccessLine3(false);
-      setSuccessAnimationComplete(false);
-      
-      // Reset original animation states to force fresh start
-      setDisplayedText1('');
-      setDisplayedText2('');
-      setDisplayedText3('');
-      setShowLine2(false);
-      setShowLine3(false);
-      setShowButton(false);
-      setDotsCount(0);
-      
-      // Force animation to restart by resetting isInView
-      setIsInView(false);
-      setTimeout(() => setIsInView(true), 100);
     }
   }, [address, tokenBalance]);
   
-  // FORCE CORRECT NETWORK - NO MORE NETWORK CHECKS
-  const isCorrectNetwork = true; // Always true - bypass network validation
+  // Check if on correct network
+  const isCorrectNetwork = chain?.chainId === Base.chainId;
 
   const handleClaim = async () => {
     if (!address) {
@@ -471,20 +379,13 @@ const ClaimSection = () => {
       return;
     }
 
-    // Add more detailed network checking
-    // Network validation (bypassed for Base compatibility)
-
     if (!isCorrectNetwork) {
       try {
-        // Attempting network switch
         await switchChain(Base.chainId);
-        // Wait a bit for network to switch
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        setClaimStatus({ type: 'info', message: 'Network switched. Please try claiming again.' });
+        setClaimStatus({ type: 'info', message: 'Please switch to Base network and try again' });
         return;
       } catch (error) {
-        console.error('Network switch error:', error);
-        setClaimStatus({ type: 'error', message: 'Please manually switch to Base network in your wallet' });
+        setClaimStatus({ type: 'error', message: 'Please switch to Base network in your wallet' });
         return;
       }
     }
@@ -545,19 +446,14 @@ const ClaimSection = () => {
     setTxHash(null);
 
     try {
-      // Initiating claim transaction
       const claimQuantity = '25000';
 
-      // Executing claim with parameters
-      
       const claimPromise = contract.erc20.claimTo(address, claimQuantity);
       const timeoutPromise = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('Claim transaction timed out after 60 seconds.')), 60000)
       );
 
       const receipt = await Promise.race([claimPromise, timeoutPromise]);
-      
-      // Claim transaction completed
       
       const hash = receipt?.receipt?.transactionHash || receipt?.receipt?.hash || receipt?.transactionHash || receipt?.hash;
       setTxHash(hash);
@@ -573,8 +469,7 @@ const ClaimSection = () => {
       });
       
     } catch (error) {
-      console.error('Detailed claim error:', error);
-      console.error('Error stack:', error.stack);
+      console.error('Claim error:', error);
       
       let errorMessage = 'Failed to claim tokens. Please try again.';
       
@@ -588,16 +483,12 @@ const ClaimSection = () => {
           localStorage.setItem(`claimed_${address.toLowerCase()}`, 'true');
           setLocalHasClaimed(true);
         }
-      } else if (error.message?.includes('could not detect network')) {
-        errorMessage = 'Network connection issue. Please disconnect and reconnect your wallet, then try again.';
       } else if (error.message?.includes('invalid_union') || error.message?.includes('ZodError')) {
         errorMessage = 'Claim request was invalid. Please refresh the page, reconnect your wallet, and try again.';
       } else if (error.message?.includes('Claim transaction timed out')) {
         errorMessage = 'Claim transaction timed out. Please check your wallet and try again.';
       } else if (error.message?.includes('IPFS gateway') || error.message?.includes('timed out') || error.message?.includes('Request timed out') || error.message?.includes('Failed to fetch')) {
         errorMessage = 'Network error. Please refresh and try again.';
-      } else if (error.message?.includes('switch to Base network')) {
-        errorMessage = error.message;
       } else if (error.message) {
         errorMessage = error.message;
       }
@@ -712,20 +603,16 @@ const ClaimSection = () => {
                           initiallyUnlocked={false}
                         />
                       ) : (
-                        // Success state when gate is unlocked - with typewriter animation
+                        // Success state when gate is unlocked
                         <div className="space-y-3 mb-2" style={{ color: '#0B8A04', fontFamily: 'IBM Plex Mono', fontWeight: 500 }}>
-                          <p className="text-lg lg:text-xl xl:text-2xl">{displayedSuccess1}</p>
-                          {showSuccessLine2 && (
-                            <p className="text-lg lg:text-xl xl:text-2xl">{displayedSuccess2}</p>
-                          )}
-                          {showSuccessLine3 && (
-                            <p className="text-lg lg:text-xl xl:text-2xl">{displayedSuccess3}</p>
-                          )}
+                          <p className="text-lg lg:text-xl xl:text-2xl">> CREDENTIALS VERIFIED</p>
+                          <p className="text-lg lg:text-xl xl:text-2xl">> ACCESS GRANTED</p>
+                          <p className="text-lg lg:text-xl xl:text-2xl">> CLAIM UNLOCKED</p>
                         </div>
                       )}
                       
                       {/* Connect/Claim Button */}
-                      {((showButton && !address) || (address && successAnimationComplete)) && (
+                      {showButton && (
                         <motion.div 
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -864,32 +751,31 @@ const ClaimSection = () => {
                             </motion.div>
                           )}
                    
-                          {/* Rotating defiant message - only show when not in social gate */}
-                          {(!address || socialGateUnlocked) && (
-                            <div 
-                              className="text-center relative inline-block w-full mt-2 lg:mt-3"
-                              style={{ 
-                                color: '#0B8A04', 
-                                fontFamily: 'IBM Plex Mono', 
-                                fontWeight: 500,
-                                fontSize: '1rem',
-                                minHeight: '1.5rem'
+                          {/* Rotating defiant message */}
+                          <div 
+                            className="text-center relative inline-block w-full"
+                            style={{ 
+                              color: '#0B8A04', 
+                              fontFamily: 'IBM Plex Mono', 
+                              fontWeight: 500,
+                              fontSize: '1rem',
+                              minHeight: '1.5rem',
+                              marginTop: '0.75rem'
+                            }}
+                          >
+                            <span>{rotatingMessage}</span>
+                            <span 
+                              style={{
+                                opacity: showCursor ? 1 : 0,
+                                transition: 'opacity 0.1s',
+                                marginLeft: '2px',
+                                display: 'inline-block',
+                                width: '0.5em'
                               }}
                             >
-                              <span>{rotatingMessage}</span>
-                              <span 
-                                style={{
-                                  opacity: showCursor ? 1 : 0,
-                                  transition: 'opacity 0.1s',
-                                  marginLeft: '2px',
-                                  display: 'inline-block',
-                                  width: '0.5em'
-                                }}
-                              >
-                                |
-                              </span>
-                            </div>
-                          )}
+                              |
+                            </span>
+                          </div>
                         </motion.div>
                       )}
                     </div>
